@@ -1,4 +1,5 @@
 import { useAuth } from "../utils/AuthContext";
+import Calendar from "../components/calendar.jsx";
 
 function Home() {
   const { user } = useAuth();
@@ -7,6 +8,7 @@ function Home() {
       <h1>Dashboard</h1>
       <p>For Employees Only</p>
       <p>Email: {user.email}</p>
+      <Calendar user={user} />
     </div>
   );
 }

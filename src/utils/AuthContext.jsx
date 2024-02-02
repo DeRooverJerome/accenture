@@ -1,21 +1,11 @@
 // AuthContext.js
-
+import { createUser } from "./createUser"; 
 import { createContext, useState, useEffect, useContext } from "react";
-import { account, databases } from "../appwriteConfig";
+import { account, databases } from "../lib/appwrite";
 import { useNavigate } from "react-router-dom";
 import { ID } from "appwrite";
-const DBId = '65a68ade63aa62ea29c5'
-const CollectionId = '65b3b155c0c6d05b439a'
 
 const AuthContext = createContext();
-
-async function createUser(username, userID) {
-  /* const blankCalendar = generateYear(); */
-  databases.createDocument(DBId, CollectionId, userID, {
-    username: username,
-    /* calendarData: JSON.stringify(blankCalendar), */
-  });
-}
 
 export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
@@ -85,15 +75,6 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   };
 
-/*   const createUser = async (username) => {
-    const blankCalendar = generateYear();
-    await databases.createDocument("Users", {
-      userId: user.$id, // Link to the logged-in user
-      username: username,
-      calendarData: JSON.stringify(blankCalendar),
-    });
-  };
- */
   const contextData = {
     user,
     loginUser,
