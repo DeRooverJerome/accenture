@@ -1,9 +1,21 @@
+// AuthContext.js
+
 import { createContext, useState, useEffect, useContext } from "react";
-import { account } from "../appwriteConfig";
+import { account, databases } from "../appwriteConfig";
 import { useNavigate } from "react-router-dom";
 import { ID } from "appwrite";
+const DBId = '65a68ade63aa62ea29c5'
+const CollectionId = '65b3b155c0c6d05b439a'
 
 const AuthContext = createContext();
+
+async function createUser(username, userID) {
+  /* const blankCalendar = generateYear(); */
+  databases.createDocument(DBId, CollectionId, userID, {
+    username: username,
+    /* calendarData: JSON.stringify(blankCalendar), */
+  });
+}
 
 export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
@@ -12,21 +24,17 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    //setLoading(false)
     checkUserStatus();
   }, []);
 
   const loginUser = async (userInfo) => {
     setLoading(true);
 
-    console.log("userInfo", userInfo);
-
     try {
       let response = await account.createEmailSession(
         userInfo.email,
         userInfo.password
       );
-      console.log(response);
       let accountDetails = await account.get();
       setUser(accountDetails);
     } catch (error) {
@@ -44,14 +52,18 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
 
     try {
+      // Create Appwrite account
       let response = await account.create(
         ID.unique(),
         userInfo.email,
         userInfo.password1,
         userInfo.name
       );
-      console.log(response);
+      
+      // Create a user document in the "Users" collection
+      await createUser(userInfo.name, response.$id);
 
+      // Log in the user
       await account.createEmailSession(userInfo.email, userInfo.password1);
       let accountDetails = await account.get();
       setUser(accountDetails);
@@ -73,11 +85,21 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   };
 
+/*   const createUser = async (username) => {
+    const blankCalendar = generateYear();
+    await databases.createDocument("Users", {
+      userId: user.$id, // Link to the logged-in user
+      username: username,
+      calendarData: JSON.stringify(blankCalendar),
+    });
+  };
+ */
   const contextData = {
     user,
     loginUser,
     logoutUser,
     registerUser,
+    createUser,
   };
 
   return (
@@ -87,9 +109,6 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-//Custom Hook
 export const useAuth = () => {
   return useContext(AuthContext);
 };
-
-export default AuthContext;
