@@ -5,23 +5,26 @@ import { useAuth } from "../utils/AuthContext";
 const Login = () => {
   const { user, loginUser } = useAuth();
   const navigate = useNavigate();
-
   const loginForm = useRef(null);
 
   useEffect(() => {
     if (user) {
-      navigate("/");
+      if (user.email === "admin@admin.com") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
     }
-  });
+  }, [user, navigate]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const email = loginForm.current.email.value;
     const password = loginForm.current.password.value;
 
     const userInfo = { email, password };
 
-    loginUser(userInfo);
+    await loginUser(userInfo);
   };
 
   return (

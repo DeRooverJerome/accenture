@@ -5,7 +5,3 @@ import { CollectionId, DBId, databases } from "../lib/appwrite";
 export async function getUserDataFromSession(userFromSession) {
   return databases.getDocument(DBId, CollectionId, userFromSession.$id);
 }
-
-export async function getUserData(userId) {
-  return databases.getDocument(DBId, CollectionId, userId);
-}

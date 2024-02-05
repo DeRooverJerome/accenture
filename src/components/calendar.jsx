@@ -66,7 +66,12 @@ function Calendar({ user }) {
       return false;
     }
     setDisplayMonthNum(displayMonthNum + 1);
-    setDisplayMonth(findCurrentDateInData(userCalendarData, getFirstDayOfMonth(displayMonthNum + 1)));
+    setDisplayMonth(
+      findCurrentDateInData(
+        userCalendarData,
+        getFirstDayOfMonth(displayMonthNum + 1)
+      )
+    );
   };
 
   const showPreviousMonth = () => {
@@ -74,7 +79,12 @@ function Calendar({ user }) {
       return false;
     }
     setDisplayMonthNum(displayMonthNum - 1);
-    setDisplayMonth(findCurrentDateInData(userCalendarData, getFirstDayOfMonth(displayMonthNum - 1)));
+    setDisplayMonth(
+      findCurrentDateInData(
+        userCalendarData,
+        getFirstDayOfMonth(displayMonthNum - 1)
+      )
+    );
   };
 
   // This useEffect will fetch the user's calendarData when the page loads and put it in the userCalendarData state.
@@ -175,7 +185,8 @@ function Calendar({ user }) {
           </svg>
         </button>
         <h1 className="my-auto text-xl md:text-2xl">
-          {getMonthName(getFirstDayOfMonth(displayMonthNum).month())} {getFirstDayOfMonth(displayMonthNum).year()}
+          {getMonthName(getFirstDayOfMonth(displayMonthNum).month())}{" "}
+          {getFirstDayOfMonth(displayMonthNum).year()}
         </h1>
         <button onClick={showNextMonth} className="h-full w-6 md:w-8 my-auto">
           <svg
@@ -340,10 +351,10 @@ const DayForm = ({
 
   const handleDayFormSubmit = (event) => {
     event.preventDefault();
-    
+
     // Destructure only the necessary properties from formData
     const { location, offSiteClient } = formData;
-    
+
     // Call the onSubmit function with the required properties
     onSubmit({ location, offSiteClient }, event);
   };
