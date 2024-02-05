@@ -1,33 +1,32 @@
-import { useState, useEffect } from 'react';
-import { client } from '../lib/appwrite';
+import { useEffect, useState } from "react";
+import { listDocuments } from "../lib/appwrite";
+import Calendar from "../components/calendar.jsx";
 
-const DocumentList = () => {
-  const [documentIds, setDocumentIds] = useState([]);
+function Admin() {
+  const [documents, setDocuments] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await client.database.listDocuments('your-collection-id', ['*'], 100, 0, 'id', 'DESC');
-        setDocumentIds(response.documents.map(doc => doc.$id));
-      } catch (error) {
-        console.error('Error fetching document IDs:', error);
-      }
-    };
-
-    fetchData();
+    listDocuments()
+      .then((response) => {
+        setDocuments(response.documents);
+        console.log(response.documents);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }, []);
-
   return (
     <div>
-      <h2>Document IDs</h2>
-      <ul>
-        {documentIds.map((id) => (
-          <li key={id}>{id}</li>
-        ))}
-      </ul>
+      <h1>Admin Page</h1>
+      {documents.map((document, index) => (
+        <div key={index}>
+          <p>{document.username}</p>
+          <p>{document.address ? document.address : "No address found"}</p>
+          <Calendar />
+        </div>
+      ))}
     </div>
   );
-};
+}
 
-export default DocumentList;
-
+export default Admin;

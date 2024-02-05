@@ -16,7 +16,7 @@ import {
 import { toggleForm } from "../utils/cursorUtils";
 import cn from "../utils/cn";
 import { getUserDataFromSession } from "../utils/getUserData";
-import  saveUserCalendarData from "../utils/saveUserCalendarData";
+import saveUserCalendarData from "../utils/saveUserCalendarData";
 
 function findCurrentDateInData(data, day) {
   // we can find the month that contains the date
@@ -56,7 +56,12 @@ function Calendar({ user }) {
       return false;
     }
     setDisplayMonthNum(displayMonthNum + 1);
-    setDisplayMonth(findCurrentDateInData(userCalendarData, getFirstDayOfMonth(displayMonthNum + 1)));
+    setDisplayMonth(
+      findCurrentDateInData(
+        userCalendarData,
+        getFirstDayOfMonth(displayMonthNum + 1)
+      )
+    );
   };
 
   const showPreviousMonth = () => {
@@ -64,7 +69,12 @@ function Calendar({ user }) {
       return false;
     }
     setDisplayMonthNum(displayMonthNum - 1);
-    setDisplayMonth(findCurrentDateInData(userCalendarData, getFirstDayOfMonth(displayMonthNum - 1)));
+    setDisplayMonth(
+      findCurrentDateInData(
+        userCalendarData,
+        getFirstDayOfMonth(displayMonthNum - 1)
+      )
+    );
   };
 
   // This useEffect will fetch the user's calendarData when the page loads and put it in the userCalendarData state.
@@ -162,7 +172,8 @@ function Calendar({ user }) {
           </svg>
         </button>
         <h1 className="my-auto text-xl md:text-2xl">
-          {getMonthName(getFirstDayOfMonth(displayMonthNum).month())} {getFirstDayOfMonth(displayMonthNum).year()}
+          {getMonthName(getFirstDayOfMonth(displayMonthNum).month())}{" "}
+          {getFirstDayOfMonth(displayMonthNum).year()}
         </h1>
         <button onClick={showNextMonth} className="h-full w-6 md:w-8 my-auto">
           <svg
@@ -227,9 +238,7 @@ function Calendar({ user }) {
                 onClick={(event) => {
                   handleFormToggle(day.date, event);
                   setSelectedDay(day);
-                  console.log(
-                    day.date
-                  );
+                  console.log(day.date);
                 }}
               >
                 <p className="day-element-date md:text-2xl sm:text-lg bg-transparent">
@@ -328,10 +337,10 @@ const DayForm = ({
 
   const handleDayFormSubmit = (event) => {
     event.preventDefault();
-    
+
     // Destructure only the necessary properties from formData
     const { location, offSiteClient } = formData;
-    
+
     // Call the onSubmit function with the required properties
     onSubmit({ location, offSiteClient }, event);
   };
