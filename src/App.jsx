@@ -19,10 +19,10 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route element={<PrivateRoutes />}>
             <Route path="/" element={<Home />} />
-          </Route>
             <Route element={<AdminRoutes />}>
               <Route path="/admin" element={<Admin />} />
             </Route>
+          </Route>
         </Routes>
       </AuthProvider>
     </Router>
