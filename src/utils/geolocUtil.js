@@ -3,16 +3,9 @@
 function calculateIsOfficeInRadius(homeAddress, officeAddress) {}
 
 
-export async function getCoordinatesFromAddress({
-    country,
-    city,
-    postalCode,
-    street,
-    number,
-  }){
-    const addressQuery = `${number} ${street}, ${postalCode} ${city}, ${country}`;
+export async function getCoordinatesFromAddress(address){
     const apiUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
-      addressQuery
+      address
     )}`;
 
     try {
@@ -84,5 +77,28 @@ export function calculateBonusFromMonth(arr, user) {
       // Else day.isBonus = -1
     }
     totalBonus += dayBonus;
+  }
+}
+
+export async function calculateDistanceBetweenTwoAdresses(addr1, addr2) {
+  try {
+    let [coordinates1, coordinates2] = await Promise.all([
+      getCoordinatesFromAddress(addr1),
+      getCoordinatesFromAddress(addr2),
+    ]);
+
+    let distance = calculateDistanceBetweenTwoCoordinates(coordinates1, coordinates2);
+    console.log("coordinates 1 ", coordinates1)
+    console.log("coordinates 2 ", coordinates2)
+    console.log(distance)
+    if(distance > 10) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  } catch (error) {
+    console.error(error.message);
+    throw new Error("Unable to calculate distance. Please try again later.");
   }
 }

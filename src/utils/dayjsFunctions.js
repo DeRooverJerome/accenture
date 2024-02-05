@@ -1,4 +1,7 @@
 import dayjs from 'dayjs';
+import {getClientData} from './getClientData'
+import client from '../lib/appwrite';
+import { calculateDistanceBetweenTwoAdresses } from './geolocUtil';
 
 //For now this is only used for the following generateYear function but ultimately I'd like to be able to use it to add months to a user's calendar.
 export const generateMonth = (month, year) => {
@@ -68,6 +71,16 @@ export const generateYear = () => {
     return months;
 }
 
+export function isCurrentDay(day) {
+	const today = dayjs().utc().hour(23).format('YYYY-MM-DDTHH:00:00.000[Z]')
+	if (day.date === today) {
+		return true
+	}
+	else {
+		return false
+	}
+  };
+
 //Function to compare two days used for matching selected days with days in the calendar.
 
 export function areDaysEqual(day1, day2) {
@@ -123,3 +136,54 @@ export function calculateFirstDayOfWeek(month) {
 	let month = getMonthNumFromDate(arr[0].date)
 	return month
   }
+
+  export function getCurrentMonthIndexFromArr (arr) {
+	let currentDate = dayjs().date(1).format("YYYY-MM-DD")
+
+  }
+
+  export async function calculateBonus(arr, bool, userAddress) {
+	let bonus = 0;
+	for (let i = 0; i < arr.length; i++) {
+		if (arr[i].location === "Absent") {
+			console.log("absent")
+		}
+		else if (arr[i].location === "Home") {
+			console.log("home")
+			bonus += 1;
+		}
+		else if (arr[i].location === "Office" && bool) {
+			console.log("office in range")
+			bonus += 1;
+		}
+		else if (arr[i].location === "Office" && !bool) {
+			console.log("office not in range")
+			bonus -= 1;
+		}
+		else if (arr[i].location === "OffSite") {
+			const clientID = arr[i].offSiteClient;
+			if (clientID === undefined || client === "none") {
+			  console.log("offsite, no client");
+			} else {
+			  try {
+				const clientData = await getClientData(clientID);
+				let clientAddress = clientData.address;
+				console.log(clientAddress);
+				let distance = await calculateDistanceBetweenTwoAdresses(clientAddress, userAddress);
+	  
+				if (distance > 10) {
+				  console.log("offsite, distance >10", distance);
+				  bonus += 1;
+				} else {
+				  console.log("offsite, distance <10", distance);
+				  bonus -= 1;
+				}
+			  } catch (error) {
+				console.error("Error calculating bonus:", error.message);
+				// Handle the error accordingly, e.g., throw or log.
+			  }
+			}
+		  }
+		}
+		return bonus;
+	  }

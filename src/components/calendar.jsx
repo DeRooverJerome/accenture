@@ -12,11 +12,16 @@ import {
   getMonthNumFromArray,
   getMonthNumFromDate,
   getMonthName,
+  isCurrentDay,
+  calculateBonus
 } from "../utils/dayjsFunctions";
 import { toggleForm } from "../utils/cursorUtils";
 import cn from "../utils/cn";
 import { getUserDataFromSession } from "../utils/getUserData";
 import  saveUserCalendarData from "../utils/saveUserCalendarData";
+import { getClientsData } from "../utils/getClientData";
+import { OSMTest } from "../utils/test";
+import { calculateDistanceBetweenTwoAdresses } from "../utils/geolocUtil";
 
 function findCurrentDateInData(data, day) {
   // we can find the month that contains the date
@@ -31,6 +36,8 @@ function getFirstDayOfMonth(offset = 0) {
 }
 
 function Calendar({ user }) {
+  const officeAdress = "Rue Picard 11, 1000, Bruxelles, Belgique"
+
   //My issue is the following
   // I know the current month as a number from 0 to 11
   // I can use that to display the name of the month
@@ -41,13 +48,16 @@ function Calendar({ user }) {
 
   const daysOfTheWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const [userCalendarData, setUserCalendarData] = useState([]);
-  const [userClientData, setUserClientData] = useState([]);
+  const [userClientsData, setUserClientsData] = useState([]);
+  const [userAddress, setUserAddress] = useState("");
+  const [isUserInRange, setIsUserInRange] = useState(true);
   const [displayMonth, setDisplayMonth] = useState([]);
   const [displayMonthNum, setDisplayMonthNum] = useState(0);
   const [selectedDay, setSelectedDay] = useState(dayjs());
   const [isLoading, setIsLoading] = useState(true);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [formPosition, setFormPosition] = useState({ x: 0, y: 0 });
+  const [bonus, setBonus] = useState(0);
 
   // Functions to navigate calendar
   const showNextMonth = () => {
@@ -73,17 +83,19 @@ function Calendar({ user }) {
     const fetchData = async () => {
       try {
         const userData = await getUserDataFromSession(user);
-        console.log("userData", userData);
-        const clients = [
-          { name: "Client 1", id: "Client1", address: "1234 Main St" },
-          { name: "Client 2", id: "Client2", address: "5678 Main St" },
-          { name: "Client 3", id: "Client3", address: "9012 Main St" },
-          { name: "Client 4", id: "Client4", address: "3456 Main St" },
-        ];
+        // GET USERS CLIENTS ID
+        const clients = userData.clients;
+        // GET AND SET USERS CLIENTS INFO
+        const clientsData = await getClientsData(clients);
+        setUserClientsData(clientsData);
+        // SET USERS CALENDAR DATA
         const parsedUserData = JSON.parse(userData.calendarData);
-        console.log(parsedUserData);
         setUserCalendarData(parsedUserData);
-        setUserClientData(clients); // => This will be eventually replaced with userData.clients when we have the fetch done
+        // SET USERS ADRESS
+        setUserAddress(userData.address);
+        // SET USERS RANGE
+        const isInRange = await calculateDistanceBetweenTwoAdresses(userData.address, officeAdress);
+        setIsUserInRange(isInRange);
         setIsLoading(false);
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -101,9 +113,6 @@ function Calendar({ user }) {
     }
   }, [userCalendarData, displayMonthNum]);
 
-  const handleGetUserCalendarData = async () => {
-    console.log("Accessing user calendar data:", userCalendarData);
-  };
 
   const handleFormToggle = (day, event) => {
     toggleForm(
@@ -114,13 +123,13 @@ function Calendar({ user }) {
       setIsFormOpen
     );
   };
+
   // Use useRef to keep track of the form open state across renders
   const isFormOpenRef = useRef(isFormOpen);
 
   const handleFormSubmit = (formData, event) => {
     event.preventDefault();
     // Handle form submission, update userCalendarData
-    console.log("Form data:", formData);
     setUserCalendarData((prevData) =>
       prevData.map((month) =>
         month.map((day) =>
@@ -131,8 +140,12 @@ function Calendar({ user }) {
 
     // Close the form after submission
     setIsFormOpen(false);
-    console.log(userCalendarData);
   };
+
+  const handleCalculateBonus= (displayMonth, isUserInRange, userAddress) => {
+    setBonus(calculateBonus(displayMonth, isUserInRange, userAddress));
+    console.log(userAddress)
+  }
 
   const firstDayOfWeek = calculateFirstDayOfWeek(displayMonth);
 
@@ -216,7 +229,9 @@ function Calendar({ user }) {
                 key={day.date}
                 className={cn(
                   areDaysEqual(day, selectedDay)
-                    ? "text-white rounded-md bg-opacity-60 bg-blue-900"
+                    ? "text-white rounded-md bg-opacity-80"
+                    : isCurrentDay(day)
+                    ? "border-dashed border-4"
                     : "",
                   "border-black border-2 rounded-md grid place-content-center cursor-pointer aspect-square relative z-20 hover:border-[3px] hover:font-bold hover:shadow-xl day-element",
                   cn(day.location === "Home" ? "bg-green-600 text-white" : ""),
@@ -227,9 +242,7 @@ function Calendar({ user }) {
                 onClick={(event) => {
                   handleFormToggle(day.date, event);
                   setSelectedDay(day);
-                  console.log(
-                    day.date
-                  );
+                  console.log(displayMonth)
                 }}
               >
                 <p className="day-element-date md:text-2xl sm:text-lg bg-transparent">
@@ -246,13 +259,13 @@ function Calendar({ user }) {
       {isFormOpen && (
         <DayForm
           selectedDay={selectedDay}
+          clientsData={userClientsData}
           onClose={() => {
             setIsFormOpen(false);
             setSelectedDay([]);
           }}
           onSubmit={(formData, event) => handleFormSubmit(formData, event)}
           position={formPosition}
-          userClientData={userClientData}
         />
       )}
       <div className="color-code rounded-lg mx-auto bg-gray-200 border-opacity-50 flex justify-between pb-2 w-11/12 p-2">
@@ -284,11 +297,11 @@ function Calendar({ user }) {
         Save Changes
       </button>
 
-      <section className="userinfo">
-        <p>Username</p>
-        <p>User Adress</p>
-        <p>User Mail</p>
-      </section>
+      <button
+      className="bg-blue-400"
+      onClick={() => handleCalculateBonus(displayMonth, isUserInRange, userAddress)}>
+        Bonus ?
+      </button>
     </div>
   );
 }
@@ -299,14 +312,14 @@ const DayForm = ({
   onClose,
   onSubmit,
   position,
-  userClientData,
+  clientsData,
 }) => {
   //Using a data state within the DayForm component that is specific to DayForm.
-  const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState({
     date: selectedDay.date,
     location: selectedDay.location,
     offSiteClient: "none",
-    clients: userClientData,
+    clients: clientsData,
   });
   //This modifies the formData that will be sent when it is submitted. It is called whenever an option is selected.
   const handleDayFormChange = (e) => {
@@ -323,7 +336,6 @@ const DayForm = ({
       // Update the formData state with the selected value
       setFormData((prevData) => ({ ...prevData, [name]: value }));
     }
-    console.log(userClientData);
   };
 
   const handleDayFormSubmit = (event) => {
@@ -400,7 +412,7 @@ const DayForm = ({
             >
               <option value="none">Choose a client...</option>
               {formData.clients.map((client) => (
-                <option key={client.id} value={client.id}>
+                <option key={client.$id} value={client.$id}>
                   {client.name}
                 </option>
               ))}
