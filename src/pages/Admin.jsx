@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { listDocuments } from "../lib/appwrite";
 import Calendar from "../components/calendar.jsx";
+import UserSort from "../components/UserSort.jsx";
 
 function Admin() {
   const [documents, setDocuments] = useState([]);
@@ -16,15 +17,20 @@ function Admin() {
       });
   }, []);
   return (
-    <div>
-      <h1>Admin Page</h1>
+    <div className="adminPage">
+      <div className="adminContainer">
+
+      <div className="userInfos">
+      <UserSort />
+      </div>
+      <div className="calendar">
       {documents.map((document, index) => (
         <div key={index}>
-          <p>{document.username}</p>
-          <p>{document.address ? document.address : "No address found"}</p>
           <Calendar user={ document }/>
         </div>
       ))}
+      </div>
+      </div>
     </div>
   );
 }

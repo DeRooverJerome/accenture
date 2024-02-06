@@ -1,0 +1,17 @@
+.adminPage {
+  background: rgb(250, 249, 249);
+}
+
+.adminContainer{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+
+.ant-table-row {
+  cursor: pointer;
+}
+
+  .selected-row {
+    background-color: red ;
+  }
