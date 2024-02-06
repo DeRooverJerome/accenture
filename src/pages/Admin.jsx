@@ -22,7 +22,7 @@ function Admin() {
         <div key={index}>
           <p>{document.username}</p>
           <p>{document.address ? document.address : "No address found"}</p>
-          <Calendar />
+          <Calendar user={ document }/>
         </div>
       ))}
     </div>
