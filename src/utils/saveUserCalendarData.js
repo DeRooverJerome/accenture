@@ -5,7 +5,7 @@ async function saveUserCalendarData(newCalendarData, userFromSession) {
     await databases.updateDocument(DBId, CollectionId, userFromSession.$id, {
       calendarData: JSON.stringify(newCalendarData),
     });
-    console.log("Calendar data updated successfully!");
+    console.log("Calendar data updated successfully!", newCalendarData);
   } catch (error) {
     console.error("Error updating calendar data:", error);
     throw error; // You might want to handle the error appropriately in the calling code
