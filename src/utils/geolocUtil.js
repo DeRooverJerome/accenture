@@ -90,13 +90,7 @@ export async function calculateDistanceBetweenTwoAdresses(addr1, addr2) {
     let distance = calculateDistanceBetweenTwoCoordinates(coordinates1, coordinates2);
     console.log("coordinates 1 ", coordinates1)
     console.log("coordinates 2 ", coordinates2)
-    console.log(distance)
-    if(distance > 10) {
-      return false;
-    }
-    else {
-      return true;
-    }
+    return distance;
   } catch (error) {
     console.error(error.message);
     throw new Error("Unable to calculate distance. Please try again later.");

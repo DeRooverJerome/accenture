@@ -1,0 +1,61 @@
+body {
+  min-height: 100vh;
+  background-color: #faf3e6;
+}
+
+.header {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn {
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: rgba(214, 40, 40, 0.8549019608);
+  border: 2px solid rgba(0, 0, 0, 0.5);
+}
+
+.br-line {
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 90%;
+  border: 2px solid rgba(0, 0, 0, 0.497);
+  border-radius: 5px;
+}
+
+.adminPage {
+  background: rgb(250, 249, 249);
+}
+
+.adminContainer {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.ant-table-row {
+  cursor: pointer;
+}
+
+.selected-row {
+  background-color: red;
+}
+
+.day-home {
+  background-color: #8ac926;
+}
+
+.day-absent {
+  background-color: rgba(0, 0, 0, 0.2352941176);
+}
+
+.day-office {
+  background-color: rgba(112, 76, 163, 0.7725490196);
+}
+
+.day-offsite {
+  background-color: #ff595e;
+}

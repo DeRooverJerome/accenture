@@ -222,13 +222,14 @@ export async function calculateBonusFromForm(
           clientAddress,
           userAddress
         );
+		console.log("distance", distance);
 
         if (distance > 10) {
-          console.log("offsite, distance <10", distance);
-          bonus = 1;
-        } else {
-          console.log("offsite, distance >10", distance);
+          console.log("offsite, distance is more than 10km", distance);
           bonus = -1;
+        } else {
+          console.log("offsite, distance <10", distance);
+          bonus = +1;
         }
       } catch (error) {
         console.error("Error calculating bonus:", error.message);
@@ -236,6 +237,7 @@ export async function calculateBonusFromForm(
       }
     }
   }
+  console.log("bonus", bonus);
   return bonus;
 }
 
