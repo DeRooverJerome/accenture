@@ -3,6 +3,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import { Button, Input, Space, Table } from "antd";
 import Highlighter from "react-highlight-words";
 import { listDocuments } from "../lib/appwrite";
+import Calendar from "../components/calendar";
 
 const UserSort = () => {
   const [searchText, setSearchText] = useState("");
@@ -22,6 +23,7 @@ const UserSort = () => {
 
   const arrayUser = documents.map((document, index) => ({
     key: index,
+    $id: document.$id,
     LastName: document.LastName,
     FirstName: document.FirstName,
     Company: document.Company,
@@ -169,21 +171,24 @@ const UserSort = () => {
   const [selectedUser, setSelectedUser] = useState("");
 
   return (
-    <Table
-      rowClassName={(record, rowIndex) =>
-        rowIndex === selectedUser ? "selected-row" : ""
-      }
-      dataSource={arrayUser}
-      columns={columns}
-      onRow={( record, rowIndex) => {
-        return {
-          onClick: (e) => {
-            setSelectedUser(rowIndex);
-            console.log("selected user", record, rowIndex);
-          },
-        };
-      }}
-    />
+    <div className="adminContainer">
+      <Table
+        rowClassName={(record, rowIndex) =>
+          rowIndex === selectedUser ? "selected-row" : ""
+        }
+        dataSource={arrayUser}
+        columns={columns}
+        onRow={(record, rowIndex) => {
+          return {
+            onClick: (e) => {
+              setSelectedUser(record);
+              console.log(record);
+            },
+          };
+        }}
+        />
+        {selectedUser && <Calendar key={selectedUser.$id} user={selectedUser} />}
+    </div>
   );
 };
 export default UserSort;

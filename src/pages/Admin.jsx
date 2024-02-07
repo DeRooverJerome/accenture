@@ -18,7 +18,7 @@ function Admin() {
   }, []);
   return (
     <div className="adminPage">
-      <div className="adminContainer">
+      <div>
 
       <div className="userInfos">
       <UserSort />
@@ -26,7 +26,6 @@ function Admin() {
       <div className="calendar">
       {documents.map((document, index) => (
         <div key={index}>
-          <Calendar user={ document }/>
         </div>
       ))}
       </div>
