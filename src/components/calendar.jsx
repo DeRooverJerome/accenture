@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { SpinnerInfinity } from "spinners-react";
+import BonusChecker from "./bonusChecker";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 dayjs.extend(utc);
@@ -9,16 +10,16 @@ import {
   calculateFirstDayOfWeek,
   getMonthFromDate,
   isSundayOrSaturday,
-  getMonthNumFromArray,
   getMonthNumFromDate,
   getMonthName,
   isCurrentDay,
-  calculateBonus
+  calculateBonusFromForm,
+  getBonusTotal,
 } from "../utils/dayjsFunctions";
 import { toggleForm } from "../utils/cursorUtils";
 import cn from "../utils/cn";
 import { getUserDataFromSession } from "../utils/getUserData";
-import  saveUserCalendarData from "../utils/saveUserCalendarData";
+import saveUserCalendarData from "../utils/saveUserCalendarData";
 import { getClientsData } from "../utils/getClientData";
 import { OSMTest } from "../utils/test";
 import { calculateDistanceBetweenTwoAdresses } from "../utils/geolocUtil";
@@ -36,7 +37,7 @@ function getFirstDayOfMonth(offset = 0) {
 }
 
 function Calendar({ user }) {
-  const officeAdress = "Rue Picard 11, 1000, Bruxelles, Belgique"
+  const officeAdress = "Rue Picard 11, 1000, Bruxelles, Belgique";
 
   //My issue is the following
   // I know the current month as a number from 0 to 11
@@ -88,7 +89,6 @@ function Calendar({ user }) {
   };
 
   // This useEffect will fetch the user's calendarData when the page loads and put it in the userCalendarData state.
-  // !!!!!!!!!!!!!!!!!!!!!NEED TO ADJUST THAT FOR OUR SQL DATABASE!!!!!!!!!!!!!!!!!!!!!!!!
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -104,8 +104,7 @@ function Calendar({ user }) {
         // SET USERS ADRESS
         setUserAddress(userData.address);
         // SET USERS RANGE
-        const isInRange = await calculateDistanceBetweenTwoAdresses(userData.address, officeAdress);
-        setIsUserInRange(isInRange);
+        setIsUserInRange(userData.isInRange);
         setIsLoading(false);
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -123,6 +122,12 @@ function Calendar({ user }) {
     }
   }, [userCalendarData, displayMonthNum]);
 
+  useEffect(() => {
+    console.log("displayMonth updated", displayMonth);
+    console.log("checking if userCalendarData is updated", userCalendarData);
+    setBonus(getBonusTotal(displayMonth));
+    /* saveUserCalendarData(userCalendarData, user); // Commented out while testing */
+  }, [displayMonth]);
 
   const handleFormToggle = (day, event) => {
     toggleForm(
@@ -132,6 +137,7 @@ function Calendar({ user }) {
       setFormPosition,
       setIsFormOpen
     );
+    event.stopPropagation();
   };
 
   // Use useRef to keep track of the form open state across renders
@@ -147,15 +153,19 @@ function Calendar({ user }) {
         )
       )
     );
-
     // Close the form after submission
     setIsFormOpen(false);
   };
 
-  const handleCalculateBonus= (displayMonth, isUserInRange, userAddress) => {
-    setBonus(calculateBonus(displayMonth, isUserInRange, userAddress));
-    console.log(userAddress)
-  }
+  const handleCalculateBonus = (month) => {
+    console.log("month to get bonus from", month);
+    const bonusTotal = getBonusTotal(month);
+    setBonus(bonusTotal);
+  };
+
+  useEffect(() => {
+    console.log("Bonus updated:", bonus);
+  }, [bonus]);
 
   const firstDayOfWeek = calculateFirstDayOfWeek(displayMonth);
 
@@ -242,10 +252,10 @@ function Calendar({ user }) {
                   areDaysEqual(day, selectedDay)
                     ? "text-white rounded-md bg-opacity-80"
                     : isCurrentDay(day)
-                    ? "border-dashed border-4"
+                    ? "border-dashed border-2"
                     : "",
-                  "border-black border-2 rounded-md grid place-content-center cursor-pointer aspect-square relative z-20 hover:border-[3px] hover:font-bold hover:shadow-xl day-element",
-                  cn(day.location === "Home" ? "bg-green-600 text-white" : ""),
+                    "border-black border-2 border-opacity-30 rounded-md grid place-content-center cursor-pointer aspect-square relative z-20 hover:border-[3px] hover:font-bold day-element drop-shadow-md",
+                    cn(day.location === "Home" ? "bg-green-600 text-white" : ""),
                   cn(day.location === "Office" ? "bg-blue-600 text-white" : ""),
                   cn(day.location === "OffSite" ? "bg-red-600 text-white" : ""),
                   cn(day.location === "Absent" ? "bg-gray-500 text-white" : "")
@@ -253,7 +263,6 @@ function Calendar({ user }) {
                 onClick={(event) => {
                   handleFormToggle(day.date, event);
                   setSelectedDay(day);
-                  console.log(displayMonth)
                 }}
               >
                 <p className="day-element-date md:text-2xl sm:text-lg bg-transparent">
@@ -271,12 +280,14 @@ function Calendar({ user }) {
         <DayForm
           selectedDay={selectedDay}
           clientsData={userClientsData}
+          isInRange={isUserInRange}
           onClose={() => {
             setIsFormOpen(false);
             setSelectedDay([]);
           }}
           onSubmit={(formData, event) => handleFormSubmit(formData, event)}
           position={formPosition}
+          userAddress={userAddress}
         />
       )}
       <div className="color-code rounded-lg mx-auto bg-gray-200 border-opacity-50 flex justify-between pb-2 w-11/12 p-2">
@@ -301,36 +312,37 @@ function Calendar({ user }) {
           </p>
         </div>
       </div>
-      <button
+      {/* <button
         className="p-3 bg-blue-700 text-white rounded-3xl m-auto mt-4"
         onClick={() => saveUserCalendarData(userCalendarData, user)}
       >
         Save Changes
-      </button>
+      </button> */}
 
-      <button
-      className="bg-blue-400"
-      onClick={() => handleCalculateBonus(displayMonth, isUserInRange, userAddress)}>
-        Bonus ?
-      </button>
+      <BonusChecker bonusValue={bonus} />
     </div>
   );
 }
 
 // DayForm component
 const DayForm = ({
+  isInRange,
   selectedDay,
   onClose,
   onSubmit,
   position,
   clientsData,
+  userAddress,
 }) => {
   //Using a data state within the DayForm component that is specific to DayForm.
-    const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState({
+    isInRange: isInRange,
     date: selectedDay.date,
     location: selectedDay.location,
     offSiteClient: "none",
     clients: clientsData,
+    isChanged: selectedDay.isChanged,
+    bonusValue: 0,
   });
   //This modifies the formData that will be sent when it is submitted. It is called whenever an option is selected.
   const handleDayFormChange = (e) => {
@@ -342,21 +354,32 @@ const DayForm = ({
         ...prevData,
         offSiteClient: "none",
         [name]: value,
+        isChanged: true,
       }));
     } else {
       // Update the formData state with the selected value
-      setFormData((prevData) => ({ ...prevData, [name]: value }));
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+        isChanged: true,
+      }));
     }
   };
 
-  const handleDayFormSubmit = (event) => {
+  const handleDayFormSubmit = async (event) => {
     event.preventDefault();
 
     // Destructure only the necessary properties from formData
-    const { location, offSiteClient } = formData;
+    const { location, offSiteClient, isChanged } = formData;
+    const bonusValue = await calculateBonusFromForm(
+      location,
+      isInRange,
+      offSiteClient,
+      userAddress
+    );
 
     // Call the onSubmit function with the required properties
-    onSubmit({ location, offSiteClient }, event);
+    await onSubmit({ location, offSiteClient, isChanged, bonusValue }, event)
   };
 
   useEffect(() => {
@@ -364,8 +387,9 @@ const DayForm = ({
     setFormData((prevData) => ({
       ...prevData,
       location: isSundayOrSaturday(selectedDay.date) ? "Absent" : "Office",
+      isChanged: true,
     }));
-  }, []);
+  }, [selectedDay]);
 
   return (
     <div className="day-form">
