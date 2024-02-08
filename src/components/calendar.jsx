@@ -1,3 +1,6 @@
+/* Ajouter le isInRange dans la logique de création/modification de user
+Ajouter la condition pour que isInRange ne considère que le mois actuel
+Forcer le user à choisir un client */
 import { useState, useEffect, useRef } from "react";
 import { SpinnerInfinity } from "spinners-react";
 import BonusChecker from "./bonusChecker";
@@ -21,8 +24,6 @@ import cn from "../utils/cn";
 import { getUserDataFromSession } from "../utils/getUserData";
 import saveUserCalendarData from "../utils/saveUserCalendarData";
 import { getClientsData } from "../utils/getClientData";
-import { OSMTest } from "../utils/test";
-import { calculateDistanceBetweenTwoAdresses } from "../utils/geolocUtil";
 
 function findCurrentDateInData(data, day) {
   // we can find the month that contains the date
@@ -37,17 +38,8 @@ function getFirstDayOfMonth(offset = 0) {
 }
 
 function Calendar({ user }) {
-  const officeAdress = "Rue Picard 11, 1000, Bruxelles, Belgique";
-
-  //My issue is the following
-  // I know the current month as a number from 0 to 11
-  // I can use that to display the name of the month
-  // But I can't use that to navigate the data array index.
-
-  const currentDate = dayjs();
-  const currentMonth = getMonthNumFromDate(dayjs().startOf("month"));
-
-  const daysOfTheWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const isMounted = useRef(false);
+  const daysOfTheWeek = ["S", "M", "T", "W", "T", "F", "S"];
   const [userCalendarData, setUserCalendarData] = useState([]);
   const [userClientsData, setUserClientsData] = useState([]);
   const [userAddress, setUserAddress] = useState("");
@@ -123,10 +115,15 @@ function Calendar({ user }) {
   }, [userCalendarData, displayMonthNum]);
 
   useEffect(() => {
-    console.log("displayMonth updated", displayMonth);
-    console.log("checking if userCalendarData is updated", userCalendarData);
-    setBonus(getBonusTotal(displayMonth));
-    // saveUserCalendarData(userCalendarData, user); // Commented out while testing 
+    // Check if the component has mounted before calling saveUserCalendarData
+    if (isMounted.current) {
+      console.log("displayMonth updated");
+      console.log("usercalendardata updated");
+      setBonus(getBonusTotal(displayMonth));
+      saveUserCalendarData(userCalendarData, user);
+    } else {
+      isMounted.current = true; // Set isMounted to true after initial mount
+    }
   }, [displayMonth]);
 
   const handleFormToggle = (day, event) => {
@@ -157,16 +154,6 @@ function Calendar({ user }) {
     setIsFormOpen(false);
   };
 
-  const handleCalculateBonus = (month) => {
-    console.log("month to get bonus from", month);
-    const bonusTotal = getBonusTotal(month);
-    setBonus(bonusTotal);
-  };
-
-  useEffect(() => {
-    console.log("Bonus updated:", bonus);
-  }, [bonus]);
-
   const firstDayOfWeek = calculateFirstDayOfWeek(displayMonth);
 
   return (
@@ -194,7 +181,7 @@ function Calendar({ user }) {
             </g>
           </svg>
         </button>
-        <h1 className="my-auto text-xl md:text-2xl">
+        <h1 className="my-auto text-xl md:text-2xl font-semibold opacity-75 text">
           {getMonthName(getFirstDayOfMonth(displayMonthNum).month())}{" "}
           {getFirstDayOfMonth(displayMonthNum).year()}
         </h1>
@@ -218,6 +205,7 @@ function Calendar({ user }) {
           </svg>
         </button>
       </div>
+      <div className="br-line"></div>
 
       {isLoading ? (
         <div className="w-full max-w-screen-sm mx-auto my-2 min-h-96 flex align-middle justify-center">
@@ -238,7 +226,10 @@ function Calendar({ user }) {
         >
           {daysOfTheWeek.map((day, index) => {
             return (
-              <h1 key={index} className="m-auto">
+              <h1
+                key={index}
+                className="m-auto font-semibold mb-2 md:text-2xl sm:text-xl"
+              >
                 {day}
               </h1>
             );
@@ -254,18 +245,18 @@ function Calendar({ user }) {
                     : isCurrentDay(day)
                     ? "border-dashed border-2"
                     : "",
-                    "border-black border-2 border-opacity-30 rounded-md grid place-content-center cursor-pointer aspect-square relative z-20 hover:border-[3px] hover:font-bold day-element drop-shadow-md",
-                    cn(day.location === "Home" ? "bg-green-600 text-white" : ""),
-                  cn(day.location === "Office" ? "bg-blue-600 text-white" : ""),
-                  cn(day.location === "OffSite" ? "bg-red-600 text-white" : ""),
-                  cn(day.location === "Absent" ? "bg-gray-500 text-white" : "")
+                  "border-black border-opacity-30 rounded-full grid place-content-center cursor-pointer aspect-square relative z-20 hover:border-[3px] hover:font-bold day-element bg-opacity-30",
+                  cn(day.location === "Home" ? "day-home" : ""),
+                  cn(day.location === "Office" ? "day-office" : ""),
+                  cn(day.location === "OffSite" ? "day-offsite" : ""),
+                  cn(day.location === "Absent" ? "day-absent" : "")
                 )}
                 onClick={(event) => {
                   handleFormToggle(day.date, event);
                   setSelectedDay(day);
                 }}
               >
-                <p className="day-element-date md:text-2xl sm:text-lg bg-transparent">
+                <p className="day-element-date md:text-2xl sm:text-xl bg-transparent">
                   {dayjs.utc(day.date).format("DD")}
                 </p>
               </div>
@@ -275,6 +266,7 @@ function Calendar({ user }) {
           )}
         </div>
       )}
+      <div className="br-line"></div>
 
       {isFormOpen && (
         <DayForm
@@ -290,36 +282,14 @@ function Calendar({ user }) {
           userAddress={userAddress}
         />
       )}
-      <div className="color-code rounded-lg mx-auto bg-gray-200 border-opacity-50 flex justify-between pb-2 w-11/12 p-2">
-        <div className="flex items-center justify-center">
-          <p className=" bg-green-600 rounded-md py-1 px-2 text-white md:text-xl">
-            Home
-          </p>
-        </div>
-        <div className="flex items-center justify-center">
-          <p className=" bg-blue-600 rounded-md py-1 px-2 text-white md:text-xl">
-            Office
-          </p>
-        </div>
-        <div className="flex items-center justify-center">
-          <p className=" bg-red-600 rounded-md py-1 px-2 text-white md:text-xl">
-            Off site
-          </p>
-        </div>
-        <div className="flex items-center justify-center">
-          <p className=" bg-gray-500 rounded-md py-1 px-2 text-white md:text-xl">
-            Absent
-          </p>
-        </div>
-      </div>
+
       {/* <button
         className="p-3 bg-blue-700 text-white rounded-3xl m-auto mt-4"
         onClick={() => saveUserCalendarData(userCalendarData, user)}
       >
         Save Changes
       </button> */}
-
-      <BonusChecker bonusValue={bonus} />
+      <BonusChecker bonusValue={bonus} userID={user.$id} />
     </div>
   );
 }
@@ -379,7 +349,7 @@ const DayForm = ({
     );
 
     // Call the onSubmit function with the required properties
-    await onSubmit({ location, offSiteClient, isChanged, bonusValue }, event)
+    await onSubmit({ location, offSiteClient, isChanged, bonusValue }, event);
   };
 
   useEffect(() => {
@@ -438,7 +408,6 @@ const DayForm = ({
         </div>
         {formData.location === "OffSite" && (
           <label className="flex flex-col justify-center items-center my-4">
-            {/* Replace this dummy dropdown with your client list dropdown */}
             <select
               name="offSiteClient"
               value={formData.offSiteClient}

@@ -1,0 +1,28 @@
+body {
+  min-height: 100vh;
+  background-color: #faf3e6;
+}
+
+.header {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn {
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #d62828da;
+  border: 2px solid rgba(0, 0, 0, 0.5);
+}
+
+.br-line {
+    margin: auto;
+    margin-top: 10px; 
+    margin-bottom: 10px;
+    width: 90%;
+    border: 2px solid rgba(0, 0, 0, 0.497);
+    border-radius: 5px;
+}

@@ -22,3 +22,59 @@
   margin-right: 10rem;
 }
 
+.infoBtn {
+  color: black;
+}
+
+button {
+  span {
+    color: black;
+  }
+}
+
+// MODAL ADMIN
+
+.clientsList {
+  color: black;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-bottom: 1px solid black;
+  padding-bottom: 0.5rem;
+}
+
+// Add clients
+
+.inputClients {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  width: 100%;
+  height: 2rem;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding-left: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: black;
+}
+
+.addClientsBtn {
+  margin-top: 1rem;
+  width: 20%;
+  height: 2rem;
+  border: 1px solid black;
+  border-radius: 5px;
+  background: white;
+  color: black;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    background: black;
+    color: white;
+  }
+
+  &:active {
+    border-radius: 10px;
+  }
+}
