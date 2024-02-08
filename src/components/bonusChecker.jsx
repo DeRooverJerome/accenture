@@ -48,8 +48,8 @@ const BonusChecker = ({ bonusValue, userID }) => {
     <div>
       <div
         className={cn(
-          bonusValue >= 1 ? "border-solid bg-opacity-50 text-neutral-100" : "border-dashed bg-opacity-20",
-          "h-full w-10/12 m-auto p-2 border-opacity-35 border-2 border-black bg-gray-500"
+          bonusValue >= 1 ? "border-solid bg-opacity-80" : "border-dashed bg-opacity-40",
+          "h-full w-90percent m-auto p-2 border-opacity-70 border-2 border-lightpink bg-lightpink"
         )}
       >
         <p className="font-semibold">{text}</p>

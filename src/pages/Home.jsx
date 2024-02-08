@@ -1,12 +1,17 @@
 import { useAuth } from "../utils/AuthContext";
 import Calendar from "../components/calendar.jsx";
-import '../../public/css/style.css';
+import Header from "../components/Header.jsx";
+import "../../public/css/style.css";
 
 function Home() {
   const { user } = useAuth();
   return (
-    <div className="container">
-      <Calendar user={ user }/>
+    <div>
+      <Header />
+
+      <div className="container">
+        <Calendar user={user} />
+      </div>
     </div>
   );
 }

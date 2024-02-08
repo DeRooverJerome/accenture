@@ -7,7 +7,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        'greenbutton': "#1982C4"
+        'greenbutton': "#1982C4",
+        'lightpink' : '#f3c19e'
       }
         },
   },

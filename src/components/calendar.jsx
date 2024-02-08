@@ -158,6 +158,9 @@ function Calendar({ user }) {
 
   return (
     <div className="flex flex-col align-center justify-center text-center max-w-screen-sm m-auto">
+      <h3 className="self-start ml-8 mb-4 text-xl md:text-2xl">
+        {getFirstDayOfMonth(displayMonthNum).year()}
+      </h3>
       <div className="calendar-nav flex justify-around">
         <button
           onClick={showPreviousMonth}
@@ -183,7 +186,6 @@ function Calendar({ user }) {
         </button>
         <h1 className="my-auto text-xl md:text-2xl font-semibold opacity-75 text">
           {getMonthName(getFirstDayOfMonth(displayMonthNum).month())}{" "}
-          {getFirstDayOfMonth(displayMonthNum).year()}
         </h1>
         <button onClick={showNextMonth} className="h-full w-6 md:w-8 my-auto">
           <svg
@@ -241,11 +243,11 @@ function Calendar({ user }) {
                 key={day.date}
                 className={cn(
                   areDaysEqual(day, selectedDay)
-                    ? "text-white rounded-md bg-opacity-80"
+                    ? "font-bold border-2"
                     : isCurrentDay(day)
-                    ? "border-dashed border-2"
+                    ? "current-day"
                     : "",
-                  "border-black border-opacity-30 rounded-full grid place-content-center cursor-pointer aspect-square relative z-20 hover:border-[3px] hover:font-bold day-element bg-opacity-30",
+                  "border-black border-opacity-50 rounded-full grid place-content-center cursor-pointer aspect-square relative z-20 hover:font-bold day-element bg-opacity-30",
                   cn(day.location === "Home" ? "day-home" : ""),
                   cn(day.location === "Office" ? "day-office" : ""),
                   cn(day.location === "OffSite" ? "day-offsite" : ""),
@@ -372,15 +374,15 @@ const DayForm = ({
         onSubmit={(event) => handleDayFormSubmit(event)}
         style={{ position: "fixed", top: position.y, left: position.x }}
         className="
-        w-1/2
-        max-w-96
+        w-64
+        md:w-80
         position: fixed
         flex
         flex-col
         justify-items-center
         border-2
-        border-blue-900
-        bg-white
+        border-black
+        border-opacity-50 bg-slate-50
         rounded-lg
         z-30
         p-4
@@ -399,11 +401,12 @@ const DayForm = ({
             }
             onChange={handleDayFormChange}
             className="overflow-x-hidden border-2 w-full m-2 p-1 rounded-md"
+            
           >
-            <option value="Office">Office</option>
-            <option value="Home">Home</option>
-            <option value="OffSite">Off Site</option>
-            <option value="Absent">Absent</option>
+            <option value="Office" className="option-office">Office</option>
+            <option value="Home" className="option-home">Home</option>
+            <option value="OffSite" className="option-offsite">Off Site</option>
+            <option value="Absent" className="option-absent">Absent</option>
           </select>
         </div>
         {formData.location === "OffSite" && (
@@ -425,8 +428,8 @@ const DayForm = ({
         )}
         <button
           className="
-          overflow-x-hidden m-2 p-1 rounded-md w-full
-          bg-blue-700
+          overflow-x-hidden my-2 mx-auto p-1 rounded-md w-full
+          bg-lime-700
           text-white 
           "
           type="submit"
@@ -435,10 +438,11 @@ const DayForm = ({
         </button>
         <button
           className="
+          mx-auto
           p-1
           w-full
-          m-2
-          bg-red-700
+          my-2
+          bg-rose-700
           text-white
           rounded-md"
           type="button"

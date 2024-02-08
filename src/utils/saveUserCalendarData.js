@@ -1,6 +1,10 @@
 import { CollectionId, DBId, databases } from "../lib/appwrite";
 
 async function saveUserCalendarData(newCalendarData, userFromSession) {
+  if(newCalendarData == []) {
+    console.error("Error: newCalendarData is empty");
+    return;
+  }
   try {
     await databases.updateDocument(DBId, CollectionId, userFromSession.$id, {
       calendarData: JSON.stringify(newCalendarData),
