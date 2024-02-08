@@ -2,12 +2,23 @@
   background: rgb(250, 249, 249);
 }
 
-.adminContainer{
-    display: flex;
-    justify-content: space-between;
+.adminContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5rem;
 }
 
+.userInfos {
+  margin-left: 1rem;
+  margin-left: 5rem;
+}
 
 .ant-table-row {
   cursor: pointer;
 }
+
+.calendarAdminSide {
+  width: 40%;
+  margin-right: 10rem;
+}
+

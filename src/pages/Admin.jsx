@@ -17,13 +17,12 @@ function Admin() {
       });
   }, []);
   return (
-    <div className="adminPage">
+    <div >
       <div>
-
-      <div className="userInfos">
+      <div >
       <UserSort />
       </div>
-      <div className="calendar">
+      <div >
       {documents.map((document, index) => (
         <div key={index}>
         </div>

@@ -126,7 +126,7 @@ function Calendar({ user }) {
     console.log("displayMonth updated", displayMonth);
     console.log("checking if userCalendarData is updated", userCalendarData);
     setBonus(getBonusTotal(displayMonth));
-    /* saveUserCalendarData(userCalendarData, user); // Commented out while testing */
+    // saveUserCalendarData(userCalendarData, user); // Commented out while testing 
   }, [displayMonth]);
 
   const handleFormToggle = (day, event) => {
