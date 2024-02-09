@@ -1,0 +1,185 @@
+.loginPage {
+  margin-top: 10rem;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.loginTitle {
+  color: $white;
+  font-family: $Lato;
+  text-transform: capitalize;
+  font-size: 2.4rem;
+  position: relative;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.span {
+  position: absolute;
+  top: 180px;
+  height: 3px;
+  border-radius: 100px;
+  width: 100px;
+  background: $white;
+  box-shadow: 3px 5px 5px 1px rgba(0, 0, 0, 0.25);
+}
+
+.welcome {
+  color: $white;
+  font-family: $Lato;
+  font-size: 2.3rem;
+  margin-top: 1.3rem;
+}
+
+.emailLogin {
+  color: rgb(148, 147, 147);
+  font-family: $Lato;
+  font-weight: 600;
+  letter-spacing: 0.02rem;
+  margin-bottom: 0.2rem;
+}
+
+.passwordLogin {
+  color: rgb(148, 147, 147);
+  font-family: $Lato;
+  font-weight: 600;
+  letter-spacing: 0.02rem;
+  margin-bottom: 0.2rem;
+}
+
+.inputEmail {
+  height: 4rem;
+  width: 20rem;
+  border-radius: 10px;
+  border: 2px solid $border !important;
+  padding-left: 3rem;
+  margin-bottom: 2rem;
+  background: rgb(158, 104, 198);
+  background: linear-gradient(
+    44deg,
+    rgba(162, 51, 239, 1) 32%,
+    rgba(146, 11, 237, 1) 57%
+  );
+  cursor: pointer;
+}
+
+.inputEmail:focus {
+  outline: none;
+}
+
+.inputPassword:focus {
+  outline: none;
+}
+
+.inputEmail::placeholder {
+  font-size: 1.2rem;
+}
+
+.inputPassword {
+  height: 4rem;
+  width: 20rem;
+  border-radius: 10px;
+  border: 2px solid $border !important;
+  padding-left: 3rem;
+  margin-bottom: 2rem;
+  background: rgb(162, 51, 239);
+  background: linear-gradient(
+    44deg,
+    rgba(162, 51, 239, 1) 32%,
+    rgba(146, 11, 237, 1) 57%
+  );
+  cursor: pointer;
+}
+
+.inputPassword::placeholder {
+  font-size: 2.2rem;
+}
+
+.formDisplay {
+  display: flex;
+}
+
+.inputIcon {
+  position: relative;
+}
+
+.iconPassword {
+  position: relative;
+}
+
+i {
+  svg {
+    color: $orange;
+    position: absolute;
+    top: 20px;
+    left: 18px;
+  }
+}
+
+.lucidKey {
+  position: absolute;
+  top: 20px;
+  left: 18px;
+}
+
+.loginBtn {
+  color: $white;
+  width: 20rem;
+  font-family: $Lato;
+  font-size: 1.4rem;
+  font-weight: 700;
+  border: 1px solid $orange;
+  background-color: $orange !important;
+  height: 3.2rem;
+  border-radius: 20px;
+  margin-top: 3rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgb(255, 191, 0) !important;
+    color: $white;
+  }
+}
+
+.svgLogo {
+  fill: $blue;
+  opacity: 0.06;
+  z-index: -1;
+  position: absolute;
+  top: -29rem;
+  left: 5rem;
+  height: 40vh;
+}
+
+form {
+  position: relative;
+}
+
+.svg {
+  position: absolute;
+  top: 450px;
+  right: 550px;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10rem;
+  gap: 2rem;
+  h2 {
+    font-family: $Lato;
+  }
+
+  .footerName {
+    color: rgb(184, 178, 178);
+    font-family: $Lato;
+    font-size: 0.8rem;
+  }
+}
