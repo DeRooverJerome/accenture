@@ -1,41 +1,42 @@
 import { useState, useEffect } from "react";
 import { Select, Button } from "antd";
-
+import saveUserClients from "../utils/saveUserClients";
+import { Router } from "react-router-dom";
 
 const { Option } = Select;
 
-const ClientsList = () => {
-  const [options, setOptions] = useState(() => {
-    const savedOptions = localStorage.getItem("options");
-    if (savedOptions) {
-      return JSON.parse(savedOptions);
-    } else {
-      return [
-        { value: "1", label: "Client 1" },
-      ];
-    }
-  });
-
+const ClientsList = ({ selectedUserClients, selectedUserID }) => {
   const [inputValue, setInputValue] = useState("");
+  const [options, setOptions] = useState([]);
+  const [selectedValue, setSelectedValue] = useState(""); // Add selectedValue state
 
   useEffect(() => {
-    localStorage.setItem("options", JSON.stringify(options));
-  }, [options]);
+    setOptions(selectedUserClients);
+  }, [selectedUserClients]);
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
 
   const handleAddClick = () => {
-    setOptions([
-      ...options,
-      { value: String(options.length + 1), label: inputValue },
-    ]);
+    const newOption = { value: String(options.length + 1), name: inputValue };
+    setOptions([...options, newOption]);
     setInputValue("");
   };
 
-  const handleDeleteClick = (valueToDelete) => {
-    setOptions(options.filter((option) => option.value !== valueToDelete));
+  const handleDeleteClick = async (valueToDelete) => {
+    const newOptions = options.filter((item) => item.$id !== valueToDelete);
+    setOptions(newOptions);
+
+    const newOptionsIds = newOptions.map((item) => item.$id);
+    const newOptionsIDsString = JSON.stringify(newOptionsIds);
+    await saveUserClients(newOptionsIDsString, selectedUserID);
+    Router.reload();
+
+    // Update selectedValue when an option is deleted
+    if (selectedValue === valueToDelete) {
+      setSelectedValue("");
+    }
   };
 
   return (
@@ -50,8 +51,9 @@ const ClientsList = () => {
       <button className="addClientsBtn" onClick={handleAddClick}>
         Add
       </button>
+      <div className="flex flex-col items-center my-2">
+      <h3 className="text-lg">Delete clients</h3>
       <Select
-        key={options.length}
         showSearch
         style={{
           width: 470,
@@ -67,17 +69,22 @@ const ClientsList = () => {
             .toLowerCase()
             .localeCompare((optionB?.children[0] ?? "").toLowerCase())
         }
+        value={selectedValue} // Pass selectedValue as the value prop
       >
         {options.map((option) => (
-          <Option key={option.value} value={option.value}>
-            {option.label}
-            <Button className="deleteBtn" type="text" onClick={() => handleDeleteClick(option.value)}>
+          <Option key={option.$id} value={option.name} className="relative">
+            {option.name}
+            <Button
+              className="deleteBtn absolute right-0"
+              type="text"
+              onClick={() => handleDeleteClick(option.$id)}
+            >
               Delete
             </Button>
-
           </Option>
         ))}
       </Select>
+      </div>
     </div>
   );
 };

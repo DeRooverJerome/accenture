@@ -37,7 +37,7 @@ const BonusChecker = ({ bonusValue, userID }) => {
   if (bonusValue >= 2) {
     text = `Eligible for bonus! ${bonusValue} days ahead`;
   } else if (bonusValue === 1) {
-    text = `Eligible for bonus! Just just but ça va`;
+    text = `Eligible for bonus! 1 day ahead`;
   } else if (bonusValue === 0) {
     text = `Not eligible for bonus : 1 day behind`;
   } else {
@@ -48,8 +48,8 @@ const BonusChecker = ({ bonusValue, userID }) => {
     <div>
       <div
         className={cn(
-          bonusValue >= 1 ? "border-solid bg-opacity-80" : "border-dashed bg-opacity-40",
-          "h-full w-90percent m-auto p-2 border-opacity-70 border-2 border-lightpink bg-lightpink"
+          bonusValue >= 1 ? "border-solid bg-opacity-80" : "border-dashed bg-opacity-40 text-black",
+          "h-full w-90percent m-auto p-2 border-opacity-70 border-2 border-cyan-900 bg-cyan-800 bg-opacity-60 text-white"
         )}
       >
         <p className="font-semibold">{text}</p>

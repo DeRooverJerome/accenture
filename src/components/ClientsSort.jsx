@@ -1,25 +1,38 @@
 import { useEffect, useRef, useState } from "react";
 import { SearchOutlined } from "@ant-design/icons";
 import { Button, Input, Space, Table, Modal, Select } from "antd";
+const bottomOptions = [
+  {
+    label: 'bottomLeft',
+    value: 'bottomLeft',
+  },
+  {
+    label: 'bottomCenter',
+    value: 'bottomCenter',
+  },
+  {
+    label: 'bottomRight',
+    value: 'bottomRight',
+  },
+  {
+    label: 'none',
+    value: 'none',
+  },
+];
 import Highlighter from "react-highlight-words";
-import { listUsers } from "../lib/appwrite";
-import Calendar from "../components/calendar";
-import BonusChecker from "./bonusChecker";
-import ClientsList from "./ClientsList";
-import AddClients from "./AddClients";
-import { getClientsData } from "../utils/getClientData";
+import { listClients } from "../lib/appwrite";
 
-const UserSort = () => {
+const ClientsSort = () => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [documents, setDocuments] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");
   const [selectedUserClients, setSelectedUserClients] = useState([]);
+  const [bottom, setBottom] = useState('bottomCenter');
 
   useEffect(() => {
-    console.log("selectedUserClients", selectedUserClients);
-    listUsers()
+    listClients()
       .then((response) => {
         setDocuments(response.documents);
       })
@@ -31,12 +44,12 @@ const UserSort = () => {
   const arrayUser = documents.map((document, index) => ({
     key: index,
     $id: document.$id,
-    LastName: document.LastName,
-    FirstName: document.FirstName,
-    Company: document.Company,
+    /* LastName: document.LastName, */
+    /* FirstName: document.FirstName, */
+    Name: document.name,
     Address: document.address,
-    isBonus: document.isBonus,
-    Clients: document.clients,
+    /* isBonus: document.isBonus, */
+    /* Clients: document.clients, */
   }));
 
   const searchInput = useRef(null);
@@ -166,56 +179,25 @@ const UserSort = () => {
   };
   const columns = [
     {
-      title: "Infos",
-      dataIndex: "infos",
-      key: "infos",
-      render: () => (
-        <Button className="infoBtn" type="primary" onClick={showModal}>
-          Infos
-        </Button>
-      ),
-    },
-    {
-      title: "Last Name",
-      dataIndex: "LastName",
-      key: "LastName",
+      title: "Company Name",
+      dataIndex: "Name",
+      key: "Name",
       width: "30%",
-      ...getColumnSearchProps("LastName"),
+      ...getColumnSearchProps("Name"),
     },
+    {title: "Address", dataIndex: "Address", key: "Address", width: "30%"},
     {
-      title: "First Name",
-      dataIndex: "FirstName",
-      key: "FirstName",
+      title: "Phone Number",
+      dataIndex: "number",
+      key: "number",
       width: "30%",
-      ...getColumnSearchProps("FirstName"),
     },
-    {
-      title: "Company",
-      dataIndex: "Company",
-      key: "Company",
-      ...getColumnSearchProps("Company"),
-      sorter: (a, b) => a.Company.length - b.Company.length,
-      sortDirections: ["descend", "ascend"],
-    },
-    {
-      title: "Status",
-      dataIndex: "isBonus",
-      key: "isBonus",
-      width: "30%",
-      render: (isBonus) => (isBonus ? "Bonus" : "No Bonus"),
-    },
+
   ];
 
-  useEffect(() => {
-    const userclients = selectedUser.Clients;
-    getClientsData(userclients).then((response) => {
-      setSelectedUserClients(response);
-    });
-  }, [selectedUser]);
-
   return (
-    <div className="adminContainer flex justify-around flex-col lg:flex-row items-center lg:items-start">
-      <div className="userInfos mx-10 w-4/5">
+    <div className="adminContainer mt-10">
+      <div className="userInfos">
         <Table
           rowClassName={(record, rowIndex) =>
             rowIndex === selectedUser ? "selected-row" : ""
@@ -234,40 +216,9 @@ const UserSort = () => {
             };
           }}
         />
-        <Modal
-          title="Informations"
-          open={isModalOpen}
-          onOk={handleOk}
-          onCancel={handleCancel}
-        >
-          <br />
-          <p>
-            {selectedUser.LastName} {selectedUser.FirstName}
-          </p>
-          <br />
-          <p> {selectedUser.Address}.</p>
-          <br />
-          <p>{selectedUser.isBonus ? "Bonus" : "No Bonus"}</p>
-          <br />
-          <h1 className="clientsList">Clients List</h1>
-          <ClientsList
-            selectedUserClients={selectedUserClients}
-            selectedUserID={selectedUser.$id}
-          />
-          <br />
-          <br />
-          <AddClients />
-        </Modal>
-      </div>
-      <div className="calendarAdminSide mx-10 flex w-4/5">
-        {selectedUser ? (
-          <Calendar key={selectedUser.$id} user={selectedUser} />
-        ) : (
-          <p className="text-xl mx-auto my-auto">Select an employee to display their calendar</p>
-        )}
       </div>
     </div>
   );
 };
 
-export default UserSort;
+export default ClientsSort;

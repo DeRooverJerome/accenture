@@ -1,6 +1,6 @@
 body {
   min-height: 100vh;
-  background-color: rgba(255, 251, 245, 0.3764705882);
+  background-color: rgba(255, 251, 243, 0.6588235294);
 }
 
 .header {
@@ -29,6 +29,15 @@ body {
   border-radius: 5px;
 }
 
+.br-line-modal {
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 90%;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.356);
+  border-radius: 5px;
+}
+
 .header-container {
   display: flex;
   width: 90%;
@@ -40,6 +49,61 @@ body {
   margin: auto;
 }
 
+.modal-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.modal-wrapper.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-container {
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  background-color: #fffbf5;
+}
+
+.modal-wrapper.open .modal-container {
+  transform: translateX(0);
+}
+
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.slide-down {
+  opacity: 0; /* Initially hide the paragraphs */
+  transition: opacity 0.3s ease-in-out, height 0.3s ease-in-out, transform 0.3s ease-in-out; /* Add a transition effect */
+  height: 0;
+  overflow: hidden; /* Hide overflow content */
+  transform-origin: top; /* Set transform origin to top */
+  transform: scaleY(0); /* Scale vertically to 0 */
+}
+
+.slide-down.show {
+  opacity: 1; /* Show the paragraphs */
+  height: auto; /* Set height to auto to reveal content */
+  transform: scaleY(1); /* Scale vertically to 1 */
+}
+
+/* Add other styles as needed */
 .adminPage {
   background: rgb(250, 249, 249);
 }
@@ -47,10 +111,74 @@ body {
 .adminContainer {
   display: flex;
   justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.userInfos {
+  margin-left: 1rem;
+  margin-left: 5rem;
 }
 
 .ant-table-row {
   cursor: pointer;
+}
+
+.calendarAdminSide {
+  width: 40%;
+  margin-right: 10rem;
+}
+
+.infoBtn {
+  color: black;
+}
+
+button span {
+  color: black;
+}
+
+.clientsList {
+  color: black;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-bottom: 1px solid black;
+  padding-bottom: 0.5rem;
+}
+
+.inputClients {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  width: 100%;
+  height: 2rem;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding-left: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: black;
+}
+
+.addClientsBtn {
+  margin-top: 1rem;
+  width: 20%;
+  height: 2rem;
+  border: 1px solid black;
+  border-radius: 5px;
+  background: white;
+  color: black;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.addClientsBtn:hover {
+  background: black;
+  color: white;
+}
+.addClientsBtn:active {
+  border-radius: 10px;
+}
+
+.deleteBtn {
+  color: red;
 }
 
 .day-home {
@@ -90,11 +218,11 @@ option {
 }
 
 .day-element {
-  box-shadow: 2px 3px 4px -4px rgba(0, 0, 0, 0.2);
+  box-shadow: 2px 3px 4px -4px rgba(0, 0, 0, 0.5);
 }
 
 .day-element:hover {
-  box-shadow: 2px 3px 4px -2px rgba(0, 0, 0, 0.5);
+  box-shadow: 2px 3px 4px 0px rgba(0, 0, 0, 0.5);
   transition: 0.2s;
 }
 

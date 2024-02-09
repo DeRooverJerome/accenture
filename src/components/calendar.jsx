@@ -51,7 +51,6 @@ function Calendar({ user }) {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [formPosition, setFormPosition] = useState({ x: 0, y: 0 });
   const [bonus, setBonus] = useState(0);
-
   // Functions to navigate calendar
   const showNextMonth = () => {
     const numberOfMonths = userCalendarData.length;
@@ -157,7 +156,7 @@ function Calendar({ user }) {
   const firstDayOfWeek = calculateFirstDayOfWeek(displayMonth);
 
   return (
-    <div className="flex flex-col align-center justify-center text-center max-w-screen-sm m-auto">
+    <div className="flex flex-col align-center justify-center text-center max-w-screen-sm m-auto w-full">
       <h3 className="self-start ml-8 mb-4 text-xl md:text-2xl">
         {getFirstDayOfMonth(displayMonthNum).year()}
       </h3>
@@ -306,7 +305,7 @@ const DayForm = ({
   clientsData,
   userAddress,
 }) => {
-  //Using a data state within the DayForm component that is specific to DayForm.
+  const [isCalculatingDistance, setIsCalculatingDistance] = useState(false);
   const [formData, setFormData] = useState({
     isInRange: isInRange,
     date: selectedDay.date,
@@ -316,11 +315,9 @@ const DayForm = ({
     isChanged: selectedDay.isChanged,
     bonusValue: 0,
   });
-  //This modifies the formData that will be sent when it is submitted. It is called whenever an option is selected.
+
   const handleDayFormChange = (e) => {
     const { name, value } = e.target;
-
-    // If the location changes, reset the client value
     if (name === "location" && formData.location === "OffSite") {
       setFormData((prevData) => ({
         ...prevData,
@@ -329,7 +326,6 @@ const DayForm = ({
         isChanged: true,
       }));
     } else {
-      // Update the formData state with the selected value
       setFormData((prevData) => ({
         ...prevData,
         [name]: value,
@@ -339,9 +335,8 @@ const DayForm = ({
   };
 
   const handleDayFormSubmit = async (event) => {
+    setIsCalculatingDistance(true);
     event.preventDefault();
-
-    // Destructure only the necessary properties from formData
     const { location, offSiteClient, isChanged } = formData;
     const bonusValue = await calculateBonusFromForm(
       location,
@@ -349,13 +344,11 @@ const DayForm = ({
       offSiteClient,
       userAddress
     );
-
-    // Call the onSubmit function with the required properties
     await onSubmit({ location, offSiteClient, isChanged, bonusValue }, event);
+    setIsCalculatingDistance(false);
   };
 
   useEffect(() => {
-    // Update formData.location when the selected day changes
     setFormData((prevData) => ({
       ...prevData,
       location: isSundayOrSaturday(selectedDay.date) ? "Absent" : "Office",
@@ -365,92 +358,39 @@ const DayForm = ({
 
   return (
     <div className="day-form">
-      <div
-        className="close-modal fixed w-screen h-screen bg-black bg-opacity-10 top-0 left-0 z-10"
-        onClick={onClose}
-      ></div>
-
-      <form
-        onSubmit={(event) => handleDayFormSubmit(event)}
-        style={{ position: "fixed", top: position.y, left: position.x }}
-        className="
-        w-64
-        md:w-80
-        position: fixed
-        flex
-        flex-col
-        justify-items-center
-        border-2
-        border-black
-        border-opacity-50 bg-slate-50
-        rounded-lg
-        z-30
-        p-4
-        "
-      >
-        <label className="m-auto md:text-2xl mb-2">
-          {getMonthFromDate(selectedDay.date) +
-            " " +
-            getDayNumFromDate(selectedDay.date)}
-        </label>
-        <div className="flex flex-col justify-center items-center">
-          <select
-            name="location"
-            defaultValue={
-              isSundayOrSaturday(selectedDay.date) ? "Absent" : "Office"
-            }
-            onChange={handleDayFormChange}
-            className="overflow-x-hidden border-2 w-full m-2 p-1 rounded-md"
-            
-          >
-            <option value="Office" className="option-office">Office</option>
-            <option value="Home" className="option-home">Home</option>
-            <option value="OffSite" className="option-offsite">Off Site</option>
-            <option value="Absent" className="option-absent">Absent</option>
-          </select>
+      <div className="close-modal fixed w-screen h-screen bg-black bg-opacity-20 top-0 left-0 z-10" onClick={onClose}></div>
+      {isCalculatingDistance ? (
+        <div className="fixed top-0 left-0 w-screen h-screen flex justify-center items-center bg-black bg-opacity-75 z-50">
+        <div className="text-center flex flex-col justify-center items-center">
+          <SpinnerInfinity color="white" size={100} speed={200} />
+          <p className="text-white my-4">Calculating distance...</p>
         </div>
-        {formData.location === "OffSite" && (
-          <label className="flex flex-col justify-center items-center my-4">
-            <select
-              name="offSiteClient"
-              value={formData.offSiteClient}
-              onChange={handleDayFormChange}
-              className="overflow-x-hidden border-2 m-2 p-1 rounded-md w-full"
-            >
-              <option value="none">Choose a client...</option>
-              {formData.clients.map((client) => (
-                <option key={client.$id} value={client.$id}>
-                  {client.name}
-                </option>
-              ))}
+      </div>
+      ) : (
+        <form onSubmit={(event) => handleDayFormSubmit(event)} style={{ position: "fixed", top: position.y, left: position.x }} className="w-64 md:w-80 position: fixed flex flex-col justify-items-center border-2 border-black border-opacity-50 bg-slate-50 rounded-lg z-30 p-4">
+          <label className="m-auto md:text-2xl mb-2">{getMonthFromDate(selectedDay.date) + " " + getDayNumFromDate(selectedDay.date)}</label>
+          <div className="flex flex-col justify-center items-center">
+            <select name="location" defaultValue={isSundayOrSaturday(selectedDay.date) ? "Absent" : "Office"} onChange={handleDayFormChange} className="overflow-x-hidden border-2 w-full m-2 p-1 rounded-md">
+              <option value="Office" className="option-office">Office</option>
+              <option value="Home" className="option-home">Home</option>
+              <option value="OffSite" className="option-offsite">Off Site</option>
+              <option value="Absent" className="option-absent">Absent</option>
             </select>
-          </label>
-        )}
-        <button
-          className="
-          overflow-x-hidden my-2 mx-auto p-1 rounded-md w-full
-          bg-lime-700
-          text-white 
-          "
-          type="submit"
-        >
-          Save
-        </button>
-        <button
-          className="
-          mx-auto
-          p-1
-          w-full
-          my-2
-          bg-rose-700
-          text-white
-          rounded-md"
-          type="button"
-          onClick={onClose}
-        >
-          Cancel
-        </button>
-      </form>
+          </div>
+          {formData.location === "OffSite" && (
+            <label className="flex flex-col justify-center items-center my-4">
+              <select name="offSiteClient" value={formData.offSiteClient} onChange={handleDayFormChange} className="overflow-x-hidden border-2 m-2 p-1 rounded-md w-full">
+                <option value="none">Choose a client...</option>
+                {formData.clients.map((client) => (
+                  <option key={client.$id} value={client.$id}>{client.name}</option>
+                ))}
+              </select>
+            </label>
+          )}
+          <button className="overflow-x-hidden my-2 mx-auto p-1 rounded-md w-full bg-lime-700 text-white" type="submit">Save</button>
+          <button className="mx-auto p-1 w-full my-2 bg-rose-700 text-white rounded-md" type="button" onClick={onClose}>Cancel</button>
+        </form>
+      )}
     </div>
   );
 };

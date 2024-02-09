@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import { getClientData } from "./getClientData";
 import client from "../lib/appwrite";
 import { calculateDistanceBetweenTwoAdresses } from "./geolocUtil";
+import utc from "dayjs/plugin/utc";
 
 //For now this is only used for the following generateYear function but ultimately I'd like to be able to use it to add months to a user's calendar.
 export const generateMonth = (month, year) => {
@@ -23,21 +24,23 @@ export const generateMonth = (month, year) => {
 
   function isHoliday(date) {
     for (let i = 0; i < holidayDates.length; i++) {
-      const day = dayjs(holidayDates[i]);
-      if (day.isSame(date, "day")) {
+      const holidayDate = dayjs.utc(holidayDates[i]).startOf('day').hour(12); // Set time to noon
+      const dateAtNoon = date.startOf('day').hour(12); // Set time to noon
+      if (dateAtNoon.isSame(holidayDate, "day")) { // Use "day" unit for comparison
+        console.log(date, holidayDate, dateAtNoon.isSame(holidayDate, "day"));
         return true;
-      } else {
       }
     }
     return false;
   }
+  
 
   //This function checks for sundays and saturdays and returns false if it is either of those days.
   function isWorkDay(date) {
     const day = date.day();
     if (day === 1 || day === 0) {
       return false;
-    } else if (isHoliday(date)) {
+    } else if (isHoliday(date.startOf('day').hour(12))) {
       return false;
     } else {
       return true;

@@ -7,10 +7,10 @@ function Home() {
   const { user } = useAuth();
   return (
     <div>
-      <Header />
+      <Header userFromSession={ user }/>
 
       <div className="container">
-        <Calendar user={user} />
+        <Calendar user ={ user } />
       </div>
     </div>
   );

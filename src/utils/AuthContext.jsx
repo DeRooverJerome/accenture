@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }) => {
         userInfo.name
       );
       
-      // Create a user document in the "Users" collection
+      console.log("response", response);
       await createUser(userInfo.name, response.$id);
 
       // Log in the user
