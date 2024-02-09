@@ -1,10 +1,11 @@
 body {
   min-height: 100vh;
-  background-color: #faf3e6;
+  background-color: rgba(255, 251, 245, 0.3764705882);
 }
 
 .header {
-  padding: 20px;
+  padding: 7px;
+  margin-bottom: 20px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -14,6 +15,7 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  background-color: rgba(243, 193, 158, 0.1568627451);
 }
 
 .btn {
@@ -29,8 +31,23 @@ body {
   margin-top: 10px;
   margin-bottom: 10px;
   width: 90%;
-  border: 2px solid rgba(0, 0, 0, 0.497);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.497);
   border-radius: 5px;
+}
+
+.header-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 90%;
+  margin: auto;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
+.container {
+  margin: auto;
 }
 
 .adminPage {
@@ -110,11 +127,27 @@ button span {
   border-radius: 10px;
 }
 
+.deleteBtn {
+  color: red;
+}
+
 .day-home {
   background-color: #8ac926;
 }
 
+option {
+  position: relative;
+}
+
+.option-home {
+  background-color: rgba(138, 201, 38, 0.5098039216);
+}
+
 .day-absent {
+  background-color: rgba(0, 0, 0, 0.2352941176);
+}
+
+.option-absent {
   background-color: rgba(0, 0, 0, 0.2352941176);
 }
 
@@ -122,6 +155,35 @@ button span {
   background-color: rgba(112, 76, 163, 0.7725490196);
 }
 
+.option-office {
+  background-color: rgba(112, 76, 163, 0.7725490196);
+}
+
 .day-offsite {
-  background-color: #ff595e;
+  background-color: #ff6b90;
+}
+
+.option-offsite {
+  background-color: #ff6b90;
+}
+
+.day-element {
+  -webkit-box-shadow: 2px 3px 4px -4px rgba(0, 0, 0, 0.2);
+          box-shadow: 2px 3px 4px -4px rgba(0, 0, 0, 0.2);
+}
+
+.day-element:hover {
+  -webkit-box-shadow: 2px 3px 4px -2px rgba(0, 0, 0, 0.5);
+          box-shadow: 2px 3px 4px -2px rgba(0, 0, 0, 0.5);
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+
+.current-day p {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.537254902);
+}
+
+.w-90percent {
+  width: 90%;
+  border-radius: 5px;
 }/*# sourceMappingURL=style.css.map */

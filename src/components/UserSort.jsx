@@ -6,8 +6,8 @@ import { listDocuments } from "../lib/appwrite";
 import Calendar from "../components/calendar";
 import BonusChecker from "./bonusChecker";
 import ClientsList from "./ClientsList";
-import { Client } from "appwrite";
 import AddClients from "./AddClients";
+import { getClientsData } from "../utils/getClientData";
 
 const UserSort = () => {
   const [searchText, setSearchText] = useState("");
@@ -15,6 +15,7 @@ const UserSort = () => {
   const [documents, setDocuments] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");
+  const [selectedUserClients, setSelectedUserClients] = useState([]);
 
   useEffect(() => {
     listDocuments()
@@ -35,6 +36,7 @@ const UserSort = () => {
     Company: document.Company,
     Address: document.address,
     Bonus: document.isBonus,
+    Clients: document.clients,
   }));
   console.log(arrayUser);
 
@@ -204,6 +206,15 @@ const UserSort = () => {
       render: (isBonus) => (isBonus ? "Bonus" : "No Bonus"),
     },
   ];
+
+  useEffect(() => {
+    const userclients = selectedUser.Clients;
+    getClientsData(userclients).then((response) => {
+      setSelectedUserClients(response);
+      console.log(response);
+    });
+  }, [selectedUser]);
+
   return (
     <div className="adminContainer">
       <div className="userInfos">
@@ -215,7 +226,7 @@ const UserSort = () => {
           columns={columns}
           onRow={(record, rowIndex) => {
             return {
-              onClick: (e) => {
+              onClick: () => {
                 setSelectedUser(record);
                 console.log(record);
               },
