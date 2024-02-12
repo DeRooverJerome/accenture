@@ -73,7 +73,7 @@ function Admin() {
           <div className="text-lg col-start-1 flex justify-around mx-auto border-2 rounded-xl border-black border-opacity-30">
             <h2
               className={`border-r-2 py-2 min-w-40 text-center border-black border-opacity-30 hover:bg-black hover:bg-opacity-20 ${
-                tableDisplay === "users" ? "selected" : ""
+                tableDisplay === "users" ? "selected bg-opacity-30 bg-black" : ""
               }`}
               onClick={handleTableDisplay("users")}
             >
@@ -81,7 +81,7 @@ function Admin() {
             </h2>
             <h2
               className={`py-2 min-w-40 text-center  hover:bg-black hover:bg-opacity-20 ${
-                tableDisplay === "clients" ? "selected" : ""
+                tableDisplay === "clients" ? "selected bg-opacity-30 bg-black" : ""
               }`}
               onClick={handleTableDisplay("clients")}
             >
