@@ -1,8 +1,8 @@
 .loginPage {
   margin-top: 10rem;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  position: relative;
 }
 
 .loginTitle {
@@ -13,11 +13,19 @@
   position: relative;
 }
 
-.form {
+form {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background: rgb(215, 208, 219);
+  background: linear-gradient(
+    180deg,
+    rgba(215, 208, 219, 1) 23%,
+    rgba(243, 242, 244, 1) 73%
+  );
+  border-radius: 20px;
+  padding: 20px;
 }
 
 .span {
@@ -60,12 +68,13 @@
   border: 2px solid $border !important;
   padding-left: 3rem;
   margin-bottom: 2rem;
-  background: rgb(158, 104, 198);
-  background: linear-gradient(
-    44deg,
-    rgba(162, 51, 239, 1) 32%,
-    rgba(146, 11, 237, 1) 57%
-  );
+  background: rgb(78, 110, 156);
+  // background: rgb(158, 104, 198);
+  // background: linear-gradient(
+  //   44deg,
+  //   rgba(162, 51, 239, 1) 32%,
+  //   rgba(146, 11, 237, 1) 57%
+  // );
   cursor: pointer;
 }
 
@@ -88,12 +97,13 @@
   border: 2px solid $border !important;
   padding-left: 3rem;
   margin-bottom: 2rem;
-  background: rgb(162, 51, 239);
-  background: linear-gradient(
-    44deg,
-    rgba(162, 51, 239, 1) 32%,
-    rgba(146, 11, 237, 1) 57%
-  );
+  background: rgb(78, 110, 156);
+  // background: rgb(162, 51, 239);
+  // background: linear-gradient(
+  //   44deg,
+  //   rgba(162, 51, 239, 1) 32%,
+  //   rgba(146, 11, 237, 1) 57%
+  // );
   cursor: pointer;
 }
 
@@ -134,15 +144,16 @@ i {
   font-family: $Lato;
   font-size: 1.4rem;
   font-weight: 700;
-  border: 1px solid $orange;
-  background-color: $orange !important;
+  // border: 1px solid $orange;
+  // background-color: $orange !important;
+  background: rgb(214, 177, 240) !important;
   height: 3.2rem;
   border-radius: 20px;
   margin-top: 3rem;
   cursor: pointer;
 
   &:hover {
-    background-color: rgb(255, 191, 0) !important;
+    background: rgb(182, 150, 204) !important;
     color: $white;
   }
 }
@@ -155,16 +166,6 @@ i {
   top: -29rem;
   left: 5rem;
   height: 40vh;
-}
-
-form {
-  position: relative;
-}
-
-.svg {
-  position: absolute;
-  top: 450px;
-  right: 550px;
 }
 
 .footer {

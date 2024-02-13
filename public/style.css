@@ -1,0 +1,524 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: rgb(244, 232, 253);
+}
+
+li {
+  list-style: none;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  background-color: #fffcf6;
+}
+
+.header {
+  padding: 7px;
+  margin-bottom: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: rgba(243, 193, 158, 0.1568627451);
+}
+
+.btn {
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: rgba(214, 40, 40, 0.8549019608);
+  border: 2px solid rgba(0, 0, 0, 0.5);
+}
+
+.br-line {
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 90%;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.497);
+  border-radius: 5px;
+}
+
+.br-line-modal {
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 90%;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.356);
+  border-radius: 5px;
+}
+
+.header-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 90%;
+  margin: auto;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
+.container {
+  margin: auto;
+}
+
+.modal-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  -webkit-transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.modal-wrapper.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-container {
+  -webkit-transform: translateX(100%);
+      -ms-transform: translateX(100%);
+          transform: translateX(100%);
+  -webkit-transition: -webkit-transform 0.3s ease;
+  transition: -webkit-transform 0.3s ease;
+  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, -webkit-transform 0.3s ease;
+  background-color: #fffbf5;
+}
+
+.modal-wrapper.open .modal-container {
+  -webkit-transform: translateX(0);
+      -ms-transform: translateX(0);
+          transform: translateX(0);
+}
+
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.slide-down {
+  opacity: 0; /* Initially hide the paragraphs */
+  -webkit-transition: opacity 0.3s ease-in-out, height 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out, height 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out, height 0.3s ease-in-out, transform 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out, height 0.3s ease-in-out, transform 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out; /* Add a transition effect */
+  height: 0;
+  overflow: hidden; /* Hide overflow content */
+  -webkit-transform-origin: top;
+      -ms-transform-origin: top;
+          transform-origin: top; /* Set transform origin to top */
+  -webkit-transform: scaleY(0);
+      -ms-transform: scaleY(0);
+          transform: scaleY(0); /* Scale vertically to 0 */
+}
+
+.slide-down.show {
+  opacity: 1; /* Show the paragraphs */
+  height: auto; /* Set height to auto to reveal content */
+  -webkit-transform: scaleY(1);
+      -ms-transform: scaleY(1);
+          transform: scaleY(1); /* Scale vertically to 1 */
+}
+
+.main-component {
+  background-color: #fffbfb;
+  border: 1px solid rgba(0, 0, 0, 0.123);
+}
+
+/* Add other styles as needed */
+.adminPage {
+  background: rgb(250, 249, 249);
+}
+
+.adminContainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-top: 1rem;
+  height: 100%;
+}
+
+.ant-table-row {
+  cursor: pointer;
+}
+
+.calendarAdminSide {
+  width: 40%;
+}
+
+.infoBtn {
+  color: black;
+}
+
+button span {
+  color: black;
+}
+
+.clientsList {
+  color: black;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-bottom: 1px solid black;
+  padding-bottom: 0.5rem;
+}
+
+.inputClients {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  width: 100%;
+  height: 2rem;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding-left: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: black;
+}
+
+.addClientsBtn {
+  margin-top: 1rem;
+  width: 20%;
+  height: 2rem;
+  border: 1px solid black;
+  border-radius: 5px;
+  background: white;
+  color: black;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.addClientsBtn:hover {
+  background: black;
+  color: white;
+}
+.addClientsBtn:active {
+  border-radius: 10px;
+}
+
+.deleteBtn {
+  color: red;
+}
+
+.day-home {
+  background-color: #8ac926;
+}
+
+option {
+  position: relative;
+}
+
+.option-home {
+  background-color: rgba(138, 201, 38, 0.5098039216);
+}
+
+.day-absent {
+  background-color: rgba(0, 0, 0, 0.2352941176);
+}
+
+.option-absent {
+  background-color: rgba(0, 0, 0, 0.2352941176);
+}
+
+.day-office {
+  background-color: rgba(112, 76, 163, 0.7725490196);
+}
+
+.option-office {
+  background-color: rgba(112, 76, 163, 0.7725490196);
+}
+
+.day-offsite {
+  background-color: #ff6b90;
+}
+
+.option-offsite {
+  background-color: #ff6b90;
+}
+
+.day-element {
+  -webkit-box-shadow: 2px 3px 4px -4px rgba(0, 0, 0, 0.5);
+          box-shadow: 2px 3px 4px -4px rgba(0, 0, 0, 0.5);
+}
+
+.day-element:hover {
+  -webkit-box-shadow: 2px 3px 4px 0px rgba(0, 0, 0, 0.5);
+          box-shadow: 2px 3px 4px 0px rgba(0, 0, 0, 0.5);
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+
+.current-day p {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.537254902);
+}
+
+.w-90percent {
+  width: 90%;
+  border-radius: 5px;
+}
+
+.loginPage {
+  margin-top: 10rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.loginTitle {
+  color: rgb(244, 232, 253);
+  font-family: "Lato", sans-serif;
+  text-transform: capitalize;
+  font-size: 2.4rem;
+  position: relative;
+}
+
+form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: rgb(215, 208, 219);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(23%, rgb(215, 208, 219)), color-stop(73%, rgb(243, 242, 244)));
+  background: linear-gradient(180deg, rgb(215, 208, 219) 23%, rgb(243, 242, 244) 73%);
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.span {
+  position: absolute;
+  top: 180px;
+  height: 3px;
+  border-radius: 100px;
+  width: 100px;
+  background: rgb(244, 232, 253);
+  -webkit-box-shadow: 3px 5px 5px 1px rgba(0, 0, 0, 0.25);
+          box-shadow: 3px 5px 5px 1px rgba(0, 0, 0, 0.25);
+}
+
+.welcome {
+  color: rgb(244, 232, 253);
+  font-family: "Lato", sans-serif;
+  font-size: 2.3rem;
+  margin-top: 1.3rem;
+}
+
+.emailLogin {
+  color: rgb(148, 147, 147);
+  font-family: "Lato", sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.02rem;
+  margin-bottom: 0.2rem;
+}
+
+.passwordLogin {
+  color: rgb(148, 147, 147);
+  font-family: "Lato", sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.02rem;
+  margin-bottom: 0.2rem;
+}
+
+.inputEmail {
+  height: 4rem;
+  width: 20rem;
+  border-radius: 10px;
+  border: 2px solid #a942f0 !important;
+  padding-left: 3rem;
+  margin-bottom: 2rem;
+  background: rgb(78, 110, 156);
+  cursor: pointer;
+}
+
+.inputEmail:focus {
+  outline: none;
+}
+
+.inputPassword:focus {
+  outline: none;
+}
+
+.inputEmail::-webkit-input-placeholder {
+  font-size: 1.2rem;
+}
+
+.inputEmail::-moz-placeholder {
+  font-size: 1.2rem;
+}
+
+.inputEmail:-ms-input-placeholder {
+  font-size: 1.2rem;
+}
+
+.inputEmail::-ms-input-placeholder {
+  font-size: 1.2rem;
+}
+
+.inputEmail::placeholder {
+  font-size: 1.2rem;
+}
+
+.inputPassword {
+  height: 4rem;
+  width: 20rem;
+  border-radius: 10px;
+  border: 2px solid #a942f0 !important;
+  padding-left: 3rem;
+  margin-bottom: 2rem;
+  background: rgb(78, 110, 156);
+  cursor: pointer;
+}
+
+.inputPassword::-webkit-input-placeholder {
+  font-size: 2.2rem;
+}
+
+.inputPassword::-moz-placeholder {
+  font-size: 2.2rem;
+}
+
+.inputPassword:-ms-input-placeholder {
+  font-size: 2.2rem;
+}
+
+.inputPassword::-ms-input-placeholder {
+  font-size: 2.2rem;
+}
+
+.inputPassword::placeholder {
+  font-size: 2.2rem;
+}
+
+.formDisplay {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.inputIcon {
+  position: relative;
+}
+
+.iconPassword {
+  position: relative;
+}
+
+i svg {
+  color: rgb(243, 148, 40);
+  position: absolute;
+  top: 20px;
+  left: 18px;
+}
+
+.lucidKey {
+  position: absolute;
+  top: 20px;
+  left: 18px;
+}
+
+.loginBtn {
+  color: rgb(244, 232, 253);
+  width: 20rem;
+  font-family: "Lato", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  background: rgb(214, 177, 240) !important;
+  height: 3.2rem;
+  border-radius: 20px;
+  margin-top: 3rem;
+  cursor: pointer;
+}
+.loginBtn:hover {
+  background: rgb(182, 150, 204) !important;
+  color: rgb(244, 232, 253);
+}
+
+.svgLogo {
+  fill: #5d03b1;
+  opacity: 0.06;
+  z-index: -1;
+  position: absolute;
+  top: -29rem;
+  left: 5rem;
+  height: 40vh;
+}
+
+.footer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-top: 10rem;
+  gap: 2rem;
+}
+.footer h2 {
+  font-family: "Lato", sans-serif;
+}
+.footer .footerName {
+  color: rgb(184, 178, 178);
+  font-family: "Lato", sans-serif;
+  font-size: 0.8rem;
+}/*# sourceMappingURL=style.css.map */
