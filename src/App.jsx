@@ -1,5 +1,5 @@
 import "./App.css";
-import "../public/css/style.css";
+// import "../public/css/style.css";
 import "../public/style.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PrivateRoutes from "./utils/PrivateRoutes";
