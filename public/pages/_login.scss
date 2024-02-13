@@ -26,6 +26,7 @@ form {
   );
   border-radius: 20px;
   padding: 20px;
+  box-shadow: 3px 5px 5px 1px rgba(0, 0, 0, 0.25);
 }
 
 .span {
@@ -117,10 +118,12 @@ form {
 
 .inputIcon {
   position: relative;
+  user-select: none;
 }
 
 .iconPassword {
   position: relative;
+  user-select: none;
 }
 
 i {
@@ -144,7 +147,7 @@ i {
   font-family: $Lato;
   font-size: 1.4rem;
   font-weight: 700;
-  // border: 1px solid $orange;
+  border: none;
   // background-color: $orange !important;
   background: rgb(214, 177, 240) !important;
   height: 3.2rem;

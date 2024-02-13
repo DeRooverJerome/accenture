@@ -2,6 +2,20 @@
   background: rgb(250, 249, 249);
 }
 
+.logoutAdmin {
+  cursor: pointer;
+  margin-top: 1rem;
+  border-radius: 10px;
+  padding: 0.5rem;
+  background: red;
+  color: white;
+  margin-left: 1rem;
+
+  &:hover {
+    background: darkred;
+  }
+}
+
 .adminContainer {
   display: flex;
   justify-content: space-between;
@@ -74,7 +88,6 @@ button {
   }
 }
 
-.deleteBtn{
+.deleteBtn {
   color: red;
 }
-

@@ -170,6 +170,19 @@ body {
   background: rgb(250, 249, 249);
 }
 
+.logoutAdmin {
+  cursor: pointer;
+  margin-top: 1rem;
+  border-radius: 10px;
+  padding: 0.5rem;
+  background: red;
+  color: white;
+  margin-left: 1rem;
+}
+.logoutAdmin:hover {
+  background: darkred;
+}
+
 .adminContainer {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -340,6 +353,8 @@ form {
   background: linear-gradient(180deg, rgb(215, 208, 219) 23%, rgb(243, 242, 244) 73%);
   border-radius: 20px;
   padding: 20px;
+  -webkit-box-shadow: 3px 5px 5px 1px rgba(0, 0, 0, 0.25);
+          box-shadow: 3px 5px 5px 1px rgba(0, 0, 0, 0.25);
 }
 
 .span {
@@ -454,10 +469,18 @@ form {
 
 .inputIcon {
   position: relative;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 
 .iconPassword {
   position: relative;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 
 i svg {
@@ -479,6 +502,7 @@ i svg {
   font-family: "Lato", sans-serif;
   font-size: 1.4rem;
   font-weight: 700;
+  border: none;
   background: rgb(214, 177, 240) !important;
   height: 3.2rem;
   border-radius: 20px;
@@ -521,4 +545,41 @@ i svg {
   color: rgb(184, 178, 178);
   font-family: "Lato", sans-serif;
   font-size: 0.8rem;
+}
+
+.settings-icon {
+  cursor: pointer;
+  -webkit-transition: -webkit-transform 1s;
+  transition: -webkit-transform 1s;
+  transition: transform 1s;
+  transition: transform 1s, -webkit-transform 1s;
+}
+.settings-icon:hover {
+  -webkit-transform: rotate(360deg);
+      -ms-transform: rotate(360deg);
+          transform: rotate(360deg);
+}
+
+.logoutBtn {
+  cursor: pointer;
+  border-radius: 10px;
+  padding: 0.5rem;
+  background: red;
+  color: white;
+  margin-left: 1rem;
+}
+.logoutBtn:hover {
+  background: darkred;
+}
+
+.logoutBtn {
+  cursor: pointer;
+  border-radius: 10px;
+  padding: 0.5rem;
+  background: red;
+  color: white;
+  margin-left: 1rem;
+}
+.logoutBtn:hover {
+  background: darkred;
 }/*# sourceMappingURL=style.css.map */

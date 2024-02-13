@@ -15,16 +15,16 @@ const UserSort = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");
   const [selectedUserClients, setSelectedUserClients] = useState([]);
-  const [allClients, setAllClients] = useState([])
+  const [allClients, setAllClients] = useState([]);
   const [remountCalendar, setRemountCalendar] = useState(false);
 
-useEffect(() => {
-  if (selectedUserClients.length > 0) {
-    // Remount the calendar component
-    setRemountCalendar(prevState => !prevState);
-  }
-}, [selectedUserClients]);
-  
+  useEffect(() => {
+    if (selectedUserClients.length > 0) {
+      // Remount the calendar component
+      setRemountCalendar((prevState) => !prevState);
+    }
+  }, [selectedUserClients]);
+
   useEffect(() => {
     console.log("selectedUserClients", selectedUserClients);
     listUsers()
@@ -218,14 +218,18 @@ useEffect(() => {
       dataIndex: "isBonus",
       key: "isBonus",
       width: "30%",
-      render: (isBonus) => (isBonus ? "Bonus" : "No Bonus"),
+      render: (isBonus) => (
+        <span style={{ color: isBonus ? "green" : "red" }}>
+          {isBonus ? "Bonus" : "No Bonus"}
+        </span>
+      ),
     },
   ];
 
   useEffect(() => {
     if (selectedUser) {
       // Filter all clients to get selected user's clients
-      console.log(selectedUser.Clients)
+      console.log(selectedUser.Clients);
       const filteredClients = allClients.filter((client) =>
         selectedUser.Clients.includes(client.$id)
       );
@@ -236,11 +240,11 @@ useEffect(() => {
   const handleAddClient = async () => {
     const userData = await getUserData(selectedUser.$id);
     const updatedClientsData = await userData.clients;
-    
+
     console.log("updatedClientsData azeazezaeazeazeza", updatedClientsData);
     const filteredClients = allClients.filter((client) =>
-        updatedClientsData.includes(client.$id)
-      );
+      updatedClientsData.includes(client.$id)
+    );
     setSelectedUserClients(filteredClients);
   };
 
@@ -280,21 +284,32 @@ useEffect(() => {
           <br />
           <p>{selectedUser.isBonus ? "Bonus" : "No Bonus"}</p>
           <br />
-          <h1 className="clientsList">{selectedUser.FirstName}'s current clients</h1>
+          <h1 className="clientsList">
+            {selectedUser.FirstName}'s current clients
+          </h1>
           <ClientsList
             selectedUserClients={selectedUserClients}
             selectedUserID={selectedUser.$id}
           />
           <br />
           <br />
-          <AddClients clients={allClients} user={selectedUser} onAddClient={handleAddClient} />
+          <AddClients
+            clients={allClients}
+            user={selectedUser}
+            onAddClient={handleAddClient}
+          />
         </Modal>
       </div>
       <div className="calendarAdminSide flex w-full sm:w-4/5 h-full my-auto">
         {selectedUser ? (
-          <Calendar key={remountCalendar ? Date.now() : selectedUser.$id} user={selectedUser} />
+          <Calendar
+            key={remountCalendar ? Date.now() : selectedUser.$id}
+            user={selectedUser}
+          />
         ) : (
-          <p className="text-xl mx-auto my-2">Select an employee to display their calendar</p>
+          <p className="text-xl mx-auto my-2">
+            Select an employee to display their calendar
+          </p>
         )}
       </div>
     </div>
