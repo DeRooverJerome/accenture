@@ -9,6 +9,8 @@ const SettingsModal = ({ setShowSettingsModal, userData, clientData }) => {
   const [showUserInfo, setShowUserInfo] = useState(false); // State to track if user info should be shown
   const [showUserClientInfo, setShowUserClientInfo] = useState(false); // State to track if user info should be shown
 
+
+
   useEffect(() => {
     // Add event listener to handle Escape key press
     const handleEscapeKeyPress = (event) => {

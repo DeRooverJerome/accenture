@@ -2,12 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { SearchOutlined } from "@ant-design/icons";
 import { Button, Input, Space, Table, Modal, Select } from "antd";
 import Highlighter from "react-highlight-words";
-import { listUsers } from "../lib/appwrite";
+import { listClients, listUsers } from "../lib/appwrite";
 import Calendar from "../components/calendar";
-import BonusChecker from "./bonusChecker";
 import ClientsList from "./ClientsList";
 import AddClients from "./AddClients";
-import { getClientsData } from "../utils/getClientData";
+import { getUserData } from "../utils/getUserData";
 
 const UserSort = () => {
   const [searchText, setSearchText] = useState("");
@@ -16,7 +15,16 @@ const UserSort = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");
   const [selectedUserClients, setSelectedUserClients] = useState([]);
+  const [allClients, setAllClients] = useState([])
+  const [remountCalendar, setRemountCalendar] = useState(false);
 
+useEffect(() => {
+  if (selectedUserClients.length > 0) {
+    // Remount the calendar component
+    setRemountCalendar(prevState => !prevState);
+  }
+}, [selectedUserClients]);
+  
   useEffect(() => {
     console.log("selectedUserClients", selectedUserClients);
     listUsers()
@@ -28,8 +36,16 @@ const UserSort = () => {
       });
   }, [selectedUserClients, isModalOpen]);
 
+  useEffect(() => {
+    const fetchAllClientsData = async () => {
+      const allClientsData = await listClients();
+      setAllClients(allClientsData.documents);
+    };
+    fetchAllClientsData();
+  }, []);
+
   const arrayUser = documents.map((document, index) => ({
-    key: index,
+    key: document.$id,
     $id: document.$id,
     LastName: document.LastName,
     FirstName: document.FirstName,
@@ -207,15 +223,30 @@ const UserSort = () => {
   ];
 
   useEffect(() => {
-    const userclients = selectedUser.Clients;
-    getClientsData(userclients).then((response) => {
-      setSelectedUserClients(response);
-    });
-  }, [selectedUser]);
+    if (selectedUser) {
+      // Filter all clients to get selected user's clients
+      console.log(selectedUser.Clients)
+      const filteredClients = allClients.filter((client) =>
+        selectedUser.Clients.includes(client.$id)
+      );
+      setSelectedUserClients(filteredClients);
+    }
+  }, [selectedUser, allClients]);
+
+  const handleAddClient = async () => {
+    const userData = await getUserData(selectedUser.$id);
+    const updatedClientsData = await userData.clients;
+    
+    console.log("updatedClientsData azeazezaeazeazeza", updatedClientsData);
+    const filteredClients = allClients.filter((client) =>
+        updatedClientsData.includes(client.$id)
+      );
+    setSelectedUserClients(filteredClients);
+  };
 
   return (
-    <div className="adminContainer flex justify-around flex-col lg:flex-row items-center lg:items-start">
-      <div className="userInfos mx-10 w-4/5">
+    <div className="adminContainer flex justify-around flex-col lg:flex-row items-center lg:items-start m">
+      <div className="userInfos w-full md:w-4/5 bg-slate-100 main-component h-full overflow-scroll md:overflow-auto">
         <Table
           rowClassName={(record, rowIndex) =>
             rowIndex === selectedUser ? "selected-row" : ""
@@ -249,21 +280,21 @@ const UserSort = () => {
           <br />
           <p>{selectedUser.isBonus ? "Bonus" : "No Bonus"}</p>
           <br />
-          <h1 className="clientsList">Clients List</h1>
+          <h1 className="clientsList">{selectedUser.FirstName}'s current clients</h1>
           <ClientsList
             selectedUserClients={selectedUserClients}
             selectedUserID={selectedUser.$id}
           />
           <br />
           <br />
-          <AddClients />
+          <AddClients clients={allClients} user={selectedUser} onAddClient={handleAddClient} />
         </Modal>
       </div>
-      <div className="calendarAdminSide mx-10 flex w-4/5">
+      <div className="calendarAdminSide flex w-full sm:w-4/5 h-full my-auto">
         {selectedUser ? (
-          <Calendar key={selectedUser.$id} user={selectedUser} />
+          <Calendar key={remountCalendar ? Date.now() : selectedUser.$id} user={selectedUser} />
         ) : (
-          <p className="text-xl mx-auto my-auto">Select an employee to display their calendar</p>
+          <p className="text-xl mx-auto my-2">Select an employee to display their calendar</p>
         )}
       </div>
     </div>

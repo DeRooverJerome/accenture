@@ -12,16 +12,11 @@ const ClientsList = ({ selectedUserClients, selectedUserID }) => {
 
   useEffect(() => {
     setOptions(selectedUserClients);
+    console.log("selectedUserClients", selectedUserClients);
   }, [selectedUserClients]);
 
-  const handleInputChange = (e) => {
-    setInputValue(e.target.value);
-  };
-
-  const handleAddClick = () => {
-    const newOption = { value: String(options.length + 1), name: inputValue };
-    setOptions([...options, newOption]);
-    setInputValue("");
+  const updateClientsList = (newClient) => {
+    selectedUserClients([...clients, newClient]);
   };
 
   const handleDeleteClick = async (valueToDelete) => {
@@ -41,22 +36,11 @@ const ClientsList = ({ selectedUserClients, selectedUserID }) => {
 
   return (
     <div>
-      <input
-        type="text"
-        className="inputClients"
-        placeholder="Type the client address..."
-        value={inputValue}
-        onChange={handleInputChange}
-      />
-      <button className="addClientsBtn" onClick={handleAddClick}>
-        Add
-      </button>
       <div className="flex flex-col items-center my-2">
-      <h3 className="text-lg">Delete clients</h3>
       <Select
         showSearch
         style={{
-          width: 470,
+          width: "100%",
           margin: "20px 0 0 0",
         }}
         placeholder="Search to Select"
@@ -75,7 +59,7 @@ const ClientsList = ({ selectedUserClients, selectedUserID }) => {
           <Option key={option.$id} value={option.name} className="relative">
             {option.name}
             <Button
-              className="deleteBtn absolute right-0"
+              className="deleteBtn absolute right-0 top-0"
               type="text"
               onClick={() => handleDeleteClick(option.$id)}
             >

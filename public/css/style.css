@@ -23,7 +23,7 @@ img {
 
 body {
   min-height: 100vh;
-  background-color: rgba(255, 251, 243, 0.6588235294);
+  background-color: #fffcf6;
 }
 
 .header {
@@ -126,6 +126,11 @@ body {
   transform: scaleY(1); /* Scale vertically to 1 */
 }
 
+.main-component {
+  background-color: #fffbfb;
+  border: 1px solid rgba(0, 0, 0, 0.123);
+}
+
 /* Add other styles as needed */
 .adminPage {
   background: rgb(250, 249, 249);
@@ -135,11 +140,7 @@ body {
   display: flex;
   justify-content: space-between;
   margin-top: 1rem;
-}
-
-.userInfos {
-  margin-left: 1rem;
-  margin-left: 5rem;
+  height: 100%;
 }
 
 .ant-table-row {
@@ -148,7 +149,6 @@ body {
 
 .calendarAdminSide {
   width: 40%;
-  margin-right: 10rem;
 }
 
 .infoBtn {

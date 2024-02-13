@@ -1,7 +1,7 @@
 import { userCollectionId, DBId, databases } from "../lib/appwrite";
 
-async function saveUserBonusData(newClientData, userID) {
-  try {88
+async function saveUserClients(newClientData, userID) {
+  try {
     await databases.updateDocument(DBId, userCollectionId, userID, {
       clients: newClientData,
     });
@@ -12,4 +12,4 @@ async function saveUserBonusData(newClientData, userID) {
   }
 }
 
-export default saveUserBonusData;
+export default saveUserClients;

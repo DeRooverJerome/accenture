@@ -2,11 +2,10 @@ import { useState, useEffect } from "react";
 import saveUserBonusData from "../utils/saveUserBonusData";
 import cn from "../utils/cn";
 
-const BonusChecker = ({ bonusValue, userID }) => {
+const BonusChecker = ({ bonusValue, userID, displayMonth }) => {
   const [isBonus, setIsBonus] = useState(null);
   const [isMounted, setIsMounted] = useState(false);
 
-  // Update isBonus state based on bonusValue
   useEffect(() => {
     let newIsBonus = false;
     if (bonusValue >= 1) {
@@ -14,20 +13,13 @@ const BonusChecker = ({ bonusValue, userID }) => {
     }
     setIsBonus(newIsBonus);
     if (isMounted) {
-      // Check if component has mounted
-      console.log("bonusValue changed:", bonusValue);
     } else {
-      setIsMounted(true); // Set isMounted to true after initial mount
     }
   }, [bonusValue, isMounted]);
 
-  // Log message whenever isBonus changes
   useEffect(() => {
     if (isMounted) {
-      // Check if component has mounted
-      console.log("isBonus changed:", isBonus);
-      console.log("userID:", userID);
-      saveUserBonusData(isBonus, userID);
+      saveUserBonusData(isBonus, userID, displayMonth);
     } else {
       setIsMounted(true); // Set isMounted to true after initial mount
     }

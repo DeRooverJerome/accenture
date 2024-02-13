@@ -6,11 +6,7 @@
   display: flex;
   justify-content: space-between;
   margin-top: 1rem;
-}
-
-.userInfos {
-  margin-left: 1rem;
-  margin-left: 5rem;
+  height: 100%;
 }
 
 .ant-table-row {
@@ -19,7 +15,6 @@
 
 .calendarAdminSide {
   width: 40%;
-  margin-right: 10rem;
 }
 
 .infoBtn {

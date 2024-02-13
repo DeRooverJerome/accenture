@@ -84,6 +84,7 @@ function Calendar({ user }) {
     const fetchData = async () => {
       try {
         const userData = await getUserDataFromSession(user);
+
         // GET USERS CLIENTS ID
         const clients = userData.clients;
         // GET AND SET USERS CLIENTS INFO
@@ -105,23 +106,40 @@ function Calendar({ user }) {
     fetchData();
   }, []);
 
-  // I'm using a different useEffect to display the calendar. The idea is that you can change the month you're looking at without influencing the userCalendarData state.
   useEffect(() => {
-    // Set displayMonth when userCalendarData is updated
     if (userCalendarData.length > 0) {
-      setDisplayMonth(userCalendarData[displayMonthNum]);
+      const displayMonthStr = JSON.stringify(displayMonth);
+      const userCalendarDataStr = JSON.stringify(
+        userCalendarData[displayMonthNum]
+      );
+
+      if (displayMonthStr === userCalendarDataStr) {
+        console.log(
+          "displayMonth already set to userCalendarData[displayMonthNum]"
+        );
+      } else {
+        console.log(
+          "displayMonth not set to userCalendarData[displayMonthNum] yet"
+          );
+        setDisplayMonth(userCalendarData[displayMonthNum]);
+        setBonus(getBonusTotal(userCalendarData[displayMonthNum]));
+      }
     }
   }, [userCalendarData, displayMonthNum]);
 
   useEffect(() => {
-    // Check if the component has mounted before calling saveUserCalendarData
     if (isMounted.current) {
-      console.log("displayMonth updated");
-      console.log("usercalendardata updated");
-      setBonus(getBonusTotal(displayMonth));
+      if (userCalendarData.length === 0) {
+        console.error("Error: userCalendarData is empty");
+        return;
+      }
+      if (displayMonth.length === 0) {
+        console.error("Error: displayMonth is empty");
+        return;
+      }
       saveUserCalendarData(userCalendarData, user);
     } else {
-      isMounted.current = true; // Set isMounted to true after initial mount
+      isMounted.current = true; 
     }
   }, [displayMonth]);
 
@@ -156,8 +174,8 @@ function Calendar({ user }) {
   const firstDayOfWeek = calculateFirstDayOfWeek(displayMonth);
 
   return (
-    <div className="flex flex-col align-center justify-center text-center max-w-screen-sm m-auto w-full">
-      <h3 className="self-start ml-8 mb-4 text-xl md:text-2xl">
+    <div className="flex flex-col align-center justify-center text-center max-w-screen-sm m-auto w-full md:p-10 main-component">
+      <h3 className="mb-4 text-xl md:text-2xl font-semibold opacity-70">
         {getFirstDayOfMonth(displayMonthNum).year()}
       </h3>
       <div className="calendar-nav flex justify-around">
@@ -290,7 +308,7 @@ function Calendar({ user }) {
       >
         Save Changes
       </button> */}
-      <BonusChecker bonusValue={bonus} userID={user.$id} />
+      <BonusChecker bonusValue={bonus} userID={user.$id} displayMonth={displayMonth} />
     </div>
   );
 }
@@ -358,37 +376,81 @@ const DayForm = ({
 
   return (
     <div className="day-form">
-      <div className="close-modal fixed w-screen h-screen bg-black bg-opacity-20 top-0 left-0 z-10" onClick={onClose}></div>
+      <div
+        className="close-modal fixed w-screen h-screen bg-black bg-opacity-20 top-0 left-0 z-10"
+        onClick={onClose}
+      ></div>
       {isCalculatingDistance ? (
         <div className="fixed top-0 left-0 w-screen h-screen flex justify-center items-center bg-black bg-opacity-75 z-50">
-        <div className="text-center flex flex-col justify-center items-center">
-          <SpinnerInfinity color="white" size={100} speed={200} />
-          <p className="text-white my-4">Calculating distance...</p>
+          <div className="text-center flex flex-col justify-center items-center">
+            <SpinnerInfinity color="white" size={100} speed={200} />
+            <p className="text-white my-4">Calculating distance...</p>
+          </div>
         </div>
-      </div>
       ) : (
-        <form onSubmit={(event) => handleDayFormSubmit(event)} style={{ position: "fixed", top: position.y, left: position.x }} className="w-64 md:w-80 position: fixed flex flex-col justify-items-center border-2 border-black border-opacity-50 bg-slate-50 rounded-lg z-30 p-4">
-          <label className="m-auto md:text-2xl mb-2">{getMonthFromDate(selectedDay.date) + " " + getDayNumFromDate(selectedDay.date)}</label>
+        <form
+          onSubmit={(event) => handleDayFormSubmit(event)}
+          style={{ position: "fixed", top: position.y, left: position.x }}
+          className="w-64 md:w-80 position: fixed flex flex-col justify-items-center border-2 border-black border-opacity-50 bg-slate-50 rounded-lg z-30 p-4"
+        >
+          <label className="m-auto md:text-2xl mb-2">
+            {getMonthFromDate(selectedDay.date) +
+              " " +
+              getDayNumFromDate(selectedDay.date)}
+          </label>
           <div className="flex flex-col justify-center items-center">
-            <select name="location" defaultValue={isSundayOrSaturday(selectedDay.date) ? "Absent" : "Office"} onChange={handleDayFormChange} className="overflow-x-hidden border-2 w-full m-2 p-1 rounded-md">
-              <option value="Office" className="option-office">Office</option>
-              <option value="Home" className="option-home">Home</option>
-              <option value="OffSite" className="option-offsite">Off Site</option>
-              <option value="Absent" className="option-absent">Absent</option>
+            <select
+              name="location"
+              defaultValue={
+                isSundayOrSaturday(selectedDay.date) ? "Absent" : "Office"
+              }
+              onChange={handleDayFormChange}
+              className="overflow-x-hidden border-2 w-full m-2 p-1 rounded-md"
+            >
+              <option value="Office" className="option-office">
+                Office
+              </option>
+              <option value="Home" className="option-home">
+                Home
+              </option>
+              <option value="OffSite" className="option-offsite">
+                Off Site
+              </option>
+              <option value="Absent" className="option-absent">
+                Absent
+              </option>
             </select>
           </div>
           {formData.location === "OffSite" && (
             <label className="flex flex-col justify-center items-center my-4">
-              <select name="offSiteClient" value={formData.offSiteClient} onChange={handleDayFormChange} className="overflow-x-hidden border-2 m-2 p-1 rounded-md w-full">
+              <select
+                name="offSiteClient"
+                value={formData.offSiteClient}
+                onChange={handleDayFormChange}
+                className="overflow-x-hidden border-2 m-2 p-1 rounded-md w-full"
+              >
                 <option value="none">Choose a client...</option>
                 {formData.clients.map((client) => (
-                  <option key={client.$id} value={client.$id}>{client.name}</option>
+                  <option key={client.$id} value={client.$id}>
+                    {client.name}
+                  </option>
                 ))}
               </select>
             </label>
           )}
-          <button className="overflow-x-hidden my-2 mx-auto p-1 rounded-md w-full bg-lime-700 text-white" type="submit">Save</button>
-          <button className="mx-auto p-1 w-full my-2 bg-rose-700 text-white rounded-md" type="button" onClick={onClose}>Cancel</button>
+          <button
+            className="overflow-x-hidden my-2 mx-auto p-1 rounded-md w-full bg-lime-700 text-white"
+            type="submit"
+          >
+            Save
+          </button>
+          <button
+            className="mx-auto p-1 w-full my-2 bg-rose-700 text-white rounded-md"
+            type="button"
+            onClick={onClose}
+          >
+            Cancel
+          </button>
         </form>
       )}
     </div>

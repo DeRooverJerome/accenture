@@ -21,6 +21,7 @@ const bottomOptions = [
 ];
 import Highlighter from "react-highlight-words";
 import { listClients } from "../lib/appwrite";
+import NewClientModal from "./newClientModal";
 
 const ClientsSort = () => {
   const [searchText, setSearchText] = useState("");
@@ -41,6 +42,13 @@ const ClientsSort = () => {
       });
   }, [selectedUserClients, isModalOpen]);
 
+  const updateClientData = (newClientData) => {
+    const address = `${newClientData.address.number} ${newClientData.address.street}, ${newClientData.address.zip} ${newClientData.address.city}, ${newClientData.address.country}`;
+    newClientData.address = address;
+    setDocuments([...documents, newClientData]);
+  };
+
+
   const arrayUser = documents.map((document, index) => ({
     key: index,
     $id: document.$id,
@@ -48,6 +56,7 @@ const ClientsSort = () => {
     /* FirstName: document.FirstName, */
     Name: document.name,
     Address: document.address,
+    phone: document.phone,
     /* isBonus: document.isBonus, */
     /* Clients: document.clients, */
   }));
@@ -188,16 +197,16 @@ const ClientsSort = () => {
     {title: "Address", dataIndex: "Address", key: "Address", width: "30%"},
     {
       title: "Phone Number",
-      dataIndex: "number",
-      key: "number",
+      dataIndex: "phone",
+      key: "phone",
       width: "30%",
     },
 
   ];
 
   return (
-    <div className="adminContainer mt-10">
-      <div className="userInfos">
+    <div className="adminContainer mt-10 flex-col lg:flex-row">
+      <div className="userInfos flex-1 main-component">
         <Table
           rowClassName={(record, rowIndex) =>
             rowIndex === selectedUser ? "selected-row" : ""
@@ -216,6 +225,9 @@ const ClientsSort = () => {
             };
           }}
         />
+      </div>
+      <div className="flex-1 flex justify-center items-center">
+      <NewClientModal updateClientData={updateClientData}/>
       </div>
     </div>
   );

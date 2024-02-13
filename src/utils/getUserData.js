@@ -3,7 +3,6 @@ import { userCollectionId, DBId, databases } from "../lib/appwrite";
 // This is only for testing purposes the exampleUserId will be replaced with the actual user id.
 
 export async function getUserDataFromSession(userFromSession) {
-  console.log("userFromSession", userFromSession.$id)
   return databases.getDocument(DBId, userCollectionId, userFromSession.$id);
 }
 

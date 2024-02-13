@@ -1,6 +1,6 @@
 body {
   min-height: 100vh;
-  background-color: #fffbf3a8;
+  background-color: #fffcf6;
 }
 
 .header {
@@ -103,6 +103,9 @@ body {
   transform: scaleY(1); /* Scale vertically to 1 */
 }
 
-
+.main-component {
+  background-color: #fffbfb;
+  border: 1px solid rgba(0, 0, 0, 0.123);
+}
 
 /* Add other styles as needed */
