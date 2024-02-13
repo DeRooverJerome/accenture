@@ -240,8 +240,7 @@ const UserSort = () => {
   const handleAddClient = async () => {
     const userData = await getUserData(selectedUser.$id);
     const updatedClientsData = await userData.clients;
-
-    console.log("updatedClientsData azeazezaeazeazeza", updatedClientsData);
+    
     const filteredClients = allClients.filter((client) =>
       updatedClientsData.includes(client.$id)
     );
@@ -249,7 +248,7 @@ const UserSort = () => {
   };
 
   return (
-    <div className="adminContainer flex justify-around flex-col lg:flex-row items-center lg:items-start m">
+    <div className="adminContainer flex justify-around flex-col lg:flex-row items-center lg:items-start m gap-6">
       <div className="userInfos w-full md:w-4/5 bg-slate-100 main-component h-full overflow-scroll md:overflow-auto">
         <Table
           rowClassName={(record, rowIndex) =>

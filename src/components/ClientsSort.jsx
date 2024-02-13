@@ -1,22 +1,23 @@
 import { useEffect, useRef, useState } from "react";
 import { SearchOutlined } from "@ant-design/icons";
 import { Button, Input, Space, Table, Modal, Select } from "antd";
+import { deleteClient }  from "../utils/deleteClient";
 const bottomOptions = [
   {
-    label: 'bottomLeft',
-    value: 'bottomLeft',
+    label: "bottomLeft",
+    value: "bottomLeft",
   },
   {
-    label: 'bottomCenter',
-    value: 'bottomCenter',
+    label: "bottomCenter",
+    value: "bottomCenter",
   },
   {
-    label: 'bottomRight',
-    value: 'bottomRight',
+    label: "bottomRight",
+    value: "bottomRight",
   },
   {
-    label: 'none',
-    value: 'none',
+    label: "none",
+    value: "none",
   },
 ];
 import Highlighter from "react-highlight-words";
@@ -30,7 +31,8 @@ const ClientsSort = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");
   const [selectedUserClients, setSelectedUserClients] = useState([]);
-  const [bottom, setBottom] = useState('bottomCenter');
+  const [bottom, setBottom] = useState("bottomCenter");
+  const [showDeleteColumn, setShowDeleteColumn] = useState(false); // New state to toggle the delete column
 
   useEffect(() => {
     listClients()
@@ -48,17 +50,12 @@ const ClientsSort = () => {
     setDocuments([...documents, newClientData]);
   };
 
-
   const arrayUser = documents.map((document, index) => ({
     key: index,
     $id: document.$id,
-    /* LastName: document.LastName, */
-    /* FirstName: document.FirstName, */
     Name: document.name,
     Address: document.address,
     phone: document.phone,
-    /* isBonus: document.isBonus, */
-    /* Clients: document.clients, */
   }));
 
   const searchInput = useRef(null);
@@ -186,6 +183,33 @@ const ClientsSort = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
+  const deleteColumn = {
+    title: "-",
+    dataIndex: "delete",
+    key: "delete",
+    render: (text, record) => <button className="bg-red-600 bg-opacity-55 px-1 rounded-md border-red-800 border-2" onClick={() => handleDelete(record)}>Delete</button>,
+    width: "10%",
+  };
+
+  const handleDelete = async (record) => {
+    console.log("Deleting row with ID:", record.$id);
+  
+    try {
+      await deleteClient(record.$id);
+      console.log("Client deleted successfully");
+  
+      // Refetch client data from the database
+      const response = await listClients();
+      setDocuments(response.documents);
+      alert("Client deleted successfully");
+  
+    } catch (error) {
+      console.error("Error deleting client:", error);
+      // Handle error (e.g., show an error message)
+    }
+  };
+
   const columns = [
     {
       title: "Company Name",
@@ -194,14 +218,13 @@ const ClientsSort = () => {
       width: "30%",
       ...getColumnSearchProps("Name"),
     },
-    {title: "Address", dataIndex: "Address", key: "Address", width: "30%"},
+    { title: "Address", dataIndex: "Address", key: "Address", width: "30%" },
     {
       title: "Phone Number",
       dataIndex: "phone",
       key: "phone",
       width: "30%",
     },
-
   ];
 
   return (
@@ -212,7 +235,7 @@ const ClientsSort = () => {
             rowIndex === selectedUser ? "selected-row" : ""
           }
           dataSource={arrayUser}
-          columns={columns}
+          columns={showDeleteColumn ? [...columns, deleteColumn] : columns} // Conditional rendering of delete column
           pagination={{
             position: ["none", "bottomCenter"],
           }}
@@ -226,8 +249,17 @@ const ClientsSort = () => {
           }}
         />
       </div>
-      <div className="flex-1 flex justify-center items-center">
-      <NewClientModal updateClientData={updateClientData}/>
+      <div className="flex-1 flex justify-center items-center flex-col">
+       
+        {/* Toggling the state to show or hide delete column */}
+        <NewClientModal updateClientData={updateClientData} />
+        <button
+          className="py-2 px-4 border-red-600 border-2 border-opacity-50 rounded-2xl hover:bg-red-600 hover:bg-opacity-30 mb-4 min-w-52 my-4"
+          onClick={() => setShowDeleteColumn(!showDeleteColumn)}
+        >
+          <span className="text-3xl text-red-600 pr-2">-</span>
+          <span className="text-2xl text-red-600">Delete a client</span>
+        </button>{" "}
       </div>
     </div>
   );

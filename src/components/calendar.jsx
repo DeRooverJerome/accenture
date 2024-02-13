@@ -120,7 +120,7 @@ function Calendar({ user }) {
       } else {
         console.log(
           "displayMonth not set to userCalendarData[displayMonthNum] yet"
-          );
+        );
         setDisplayMonth(userCalendarData[displayMonthNum]);
         setBonus(getBonusTotal(userCalendarData[displayMonthNum]));
       }
@@ -139,7 +139,7 @@ function Calendar({ user }) {
       }
       saveUserCalendarData(userCalendarData, user);
     } else {
-      isMounted.current = true; 
+      isMounted.current = true;
     }
   }, [displayMonth]);
 
@@ -174,7 +174,7 @@ function Calendar({ user }) {
   const firstDayOfWeek = calculateFirstDayOfWeek(displayMonth);
 
   return (
-    <div className="flex flex-col align-center justify-center text-center max-w-screen-sm m-auto w-full md:p-10 main-component">
+    <div className="flex flex-col align-center justify-center text-center m-auto w-full md:p-10 main-component">
       <h3 className="mb-4 text-xl md:text-2xl font-semibold opacity-70">
         {getFirstDayOfMonth(displayMonthNum).year()}
       </h3>
@@ -227,7 +227,7 @@ function Calendar({ user }) {
       <div className="br-line"></div>
 
       {isLoading ? (
-        <div className="w-full max-w-screen-sm mx-auto my-2 min-h-96 flex align-middle justify-center">
+        <div className="w-full mx-auto  max-w-screen-sm my-2 min-h-96 flex align-middle justify-center">
           <SpinnerInfinity color="blue" size="100" speed="200" />
         </div>
       ) : (
@@ -236,7 +236,7 @@ function Calendar({ user }) {
         grid
         grid-cols-7
         gap-2 
-        max-w-screen-sm 
+        max-w-screen-sm
         w-full
         my-2
         p-2
@@ -308,7 +308,52 @@ function Calendar({ user }) {
       >
         Save Changes
       </button> */}
-      <BonusChecker bonusValue={bonus} userID={user.$id} displayMonth={displayMonth} />
+      <BonusChecker
+        bonusValue={bonus}
+        userID={user.$id}
+        displayMonth={displayMonth}
+      />
+      <div className="mt-2 md:mt-10 border-2 grid md:grid-cols-4 grid-cols-2 grid-rows-2 md:grid-rows-1 justify-items-start md:justify-items-center w-4/5 m-auto">
+        <div className="flex items-center md:m-0 ml-8">
+          <svg
+            height="50%"
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="50" cy="50" r="40" fill="gray" />
+          </svg>
+          <p className="inline-block">Off Work</p>
+        </div>
+        <div className="flex items-center  md:m-0 ml-8">
+          <svg
+            height="50%"
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="50" cy="50" r="40" fill="#ff6b90" />
+          </svg>
+          <p>Off Site</p>
+        </div>
+        <div className="flex items-center md:m-0 ml-8">
+        <svg
+            height="50%"
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="50" cy="50" r="40" fill="#704ca3c5" />
+          </svg>
+          <p>Office</p>
+          </div>
+        <div className="flex items-center md:m-0 ml-8">
+        <svg
+            height="50%"
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="50" cy="50" r="40" fill="#8ac926" />
+          </svg>
+           <p>Home</p></div>
+      </div>
     </div>
   );
 }
