@@ -3,7 +3,7 @@
   transition: transform 1s;
 
   &:hover {
-    transform: rotate(360deg);
+    transform: rotate(180deg);
   }
 }
 
@@ -32,3 +32,8 @@
     background: darkred;
   }
 }
+
+// .modal-container{
+//   transition: ease-in-out .3s;
+// }
+

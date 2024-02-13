@@ -38,7 +38,7 @@ function Admin() {
       <div className="w-11/12 mx-auto mt-10 ">
         <div className="text-lg flex mx-auto border-2 border-black border-opacity-30 max-w-fit hover:cursor-pointer mb-16">
           <h2
-            className={`border-r-2 py-2 min-w-40 text-center border-black border-opacity-30 hover:bg-black hover:bg-opacity-20  ${
+            className={`employeesSide border-r-2 py-2 min-w-40 text-center border-black border-opacity-30 hover:bg-black hover:bg-opacity-20  ${
               tableDisplay === "users" ? "selected bg-opacity-20 bg-black" : ""
             }`}
             onClick={handleTableDisplay("users")}
@@ -46,7 +46,7 @@ function Admin() {
             Employees
           </h2>
           <h2
-            className={`py-2 min-w-40 text-center  hover:bg-black hover:bg-opacity-20 ${
+            className={` clientsSide py-2 min-w-40 text-center  hover:bg-black hover:bg-opacity-20 ${
               tableDisplay === "clients"
                 ? "selected bg-opacity-20 bg-black"
                 : ""

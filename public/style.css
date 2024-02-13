@@ -255,6 +255,23 @@ button span {
   color: red;
 }
 
+.employeesSide {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.text-lg {
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.clientsSide {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
 .day-home {
   background-color: #8ac926;
 }
@@ -555,9 +572,9 @@ i svg {
   transition: transform 1s, -webkit-transform 1s;
 }
 .settings-icon:hover {
-  -webkit-transform: rotate(360deg);
-      -ms-transform: rotate(360deg);
-          transform: rotate(360deg);
+  -webkit-transform: rotate(180deg);
+      -ms-transform: rotate(180deg);
+          transform: rotate(180deg);
 }
 
 .logoutBtn {
