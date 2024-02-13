@@ -9,7 +9,6 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Admin from "./pages/Admin";
 import AdminRoutes from "./utils/AdminRoutes";
-
 function App() {
   return (
     <Router>

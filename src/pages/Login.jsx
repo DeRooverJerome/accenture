@@ -29,10 +29,10 @@ const Login = () => {
 
   return (
     <div className="loginPage">
-      <form
+      <form 
         onSubmit={handleSubmit}
         ref={loginForm}
-        className="flex flex-col gap-2 mx-auto max-w-md mt-10 formContainer"
+        className="flex flex-col gap-2 mx-auto max-w-md mt-10 formContainerLogin"
       >
         <label className="emailLogin">email address</label>
         <div className="inputIcon">
