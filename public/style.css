@@ -4,7 +4,7 @@
   margin: 0;
   padding: 0;
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   font-family: "Roboto", sans-serif;
 }
 
@@ -34,11 +34,11 @@ body {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   background-color: rgba(243, 193, 158, 0.1568627451);
 }
 
@@ -75,8 +75,8 @@ body {
   width: 90%;
   margin: auto;
   -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
 }
 
 .container {
@@ -95,11 +95,11 @@ body {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
   -webkit-transition: opacity 0.3s ease;
   transition: opacity 0.3s ease;
   opacity: 0;
@@ -113,8 +113,8 @@ body {
 
 .modal-container {
   -webkit-transform: translateX(100%);
-      -ms-transform: translateX(100%);
-          transform: translateX(100%);
+  -ms-transform: translateX(100%);
+  transform: translateX(100%);
   -webkit-transition: -webkit-transform 0.3s ease;
   transition: -webkit-transform 0.3s ease;
   transition: transform 0.3s ease;
@@ -124,8 +124,8 @@ body {
 
 .modal-wrapper.open .modal-container {
   -webkit-transform: translateX(0);
-      -ms-transform: translateX(0);
-          transform: translateX(0);
+  -ms-transform: translateX(0);
+  transform: translateX(0);
 }
 
 .modal-overlay {
@@ -138,26 +138,30 @@ body {
 
 .slide-down {
   opacity: 0; /* Initially hide the paragraphs */
-  -webkit-transition: opacity 0.3s ease-in-out, height 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out;
-  transition: opacity 0.3s ease-in-out, height 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out;
-  transition: opacity 0.3s ease-in-out, height 0.3s ease-in-out, transform 0.3s ease-in-out;
-  transition: opacity 0.3s ease-in-out, height 0.3s ease-in-out, transform 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out; /* Add a transition effect */
+  -webkit-transition: opacity 0.3s ease-in-out, height 0.3s ease-in-out,
+    -webkit-transform 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out, height 0.3s ease-in-out,
+    -webkit-transform 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out, height 0.3s ease-in-out,
+    transform 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out, height 0.3s ease-in-out,
+    transform 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out; /* Add a transition effect */
   height: 0;
   overflow: hidden; /* Hide overflow content */
   -webkit-transform-origin: top;
-      -ms-transform-origin: top;
-          transform-origin: top; /* Set transform origin to top */
+  -ms-transform-origin: top;
+  transform-origin: top; /* Set transform origin to top */
   -webkit-transform: scaleY(0);
-      -ms-transform: scaleY(0);
-          transform: scaleY(0); /* Scale vertically to 0 */
+  -ms-transform: scaleY(0);
+  transform: scaleY(0); /* Scale vertically to 0 */
 }
 
 .slide-down.show {
   opacity: 1; /* Show the paragraphs */
   height: auto; /* Set height to auto to reveal content */
   -webkit-transform: scaleY(1);
-      -ms-transform: scaleY(1);
-          transform: scaleY(1); /* Scale vertically to 1 */
+  -ms-transform: scaleY(1);
+  transform: scaleY(1); /* Scale vertically to 1 */
 }
 
 .main-component {
@@ -188,8 +192,8 @@ body {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
   margin-top: 1rem;
   height: 100%;
 }
@@ -310,12 +314,12 @@ option {
 
 .day-element {
   -webkit-box-shadow: 2px 3px 4px -4px rgba(0, 0, 0, 0.5);
-          box-shadow: 2px 3px 4px -4px rgba(0, 0, 0, 0.5);
+  box-shadow: 2px 3px 4px -4px rgba(0, 0, 0, 0.5);
 }
 
 .day-element:hover {
   -webkit-box-shadow: 2px 3px 4px 0px rgba(0, 0, 0, 0.5);
-          box-shadow: 2px 3px 4px 0px rgba(0, 0, 0, 0.5);
+  box-shadow: 2px 3px 4px 0px rgba(0, 0, 0, 0.5);
   -webkit-transition: 0.2s;
   transition: 0.2s;
 }
@@ -336,11 +340,11 @@ option {
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 
 .loginTitle {
@@ -357,21 +361,31 @@ option {
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   background: rgb(215, 208, 219);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(23%, rgb(215, 208, 219)), color-stop(73%, rgb(243, 242, 244)));
-  background: linear-gradient(180deg, rgb(215, 208, 219) 23%, rgb(243, 242, 244) 73%);
+  background: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    color-stop(23%, rgb(215, 208, 219)),
+    color-stop(73%, rgb(243, 242, 244))
+  );
+  background: linear-gradient(
+    180deg,
+    rgb(215, 208, 219) 23%,
+    rgb(243, 242, 244) 73%
+  );
   border-radius: 20px;
   padding: 20px;
   -webkit-box-shadow: 3px 5px 5px 1px rgba(0, 0, 0, 0.25);
-          box-shadow: 3px 5px 5px 1px rgba(0, 0, 0, 0.25);
+  box-shadow: 3px 5px 5px 1px rgba(0, 0, 0, 0.25);
 }
 
 .span {
@@ -382,7 +396,7 @@ option {
   width: 100px;
   background: rgb(244, 232, 253);
   -webkit-box-shadow: 3px 5px 5px 1px rgba(0, 0, 0, 0.25);
-          box-shadow: 3px 5px 5px 1px rgba(0, 0, 0, 0.25);
+  box-shadow: 3px 5px 5px 1px rgba(0, 0, 0, 0.25);
 }
 
 .welcome {
@@ -487,17 +501,17 @@ option {
 .inputIcon {
   position: relative;
   -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .iconPassword {
   position: relative;
   -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 i svg {
@@ -547,11 +561,11 @@ i svg {
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   margin-top: 10rem;
   gap: 2rem;
 }
@@ -573,8 +587,8 @@ i svg {
 }
 .settings-icon:hover {
   -webkit-transform: rotate(180deg);
-      -ms-transform: rotate(180deg);
-          transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
 }
 
 .logoutBtn {
@@ -599,4 +613,4 @@ i svg {
 }
 .logoutBtn:hover {
   background: darkred;
-}/*# sourceMappingURL=style.css.map */
+} /*# sourceMappingURL=style.css.map */

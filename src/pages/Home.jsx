@@ -1,7 +1,7 @@
 import { useAuth } from "../utils/AuthContext";
 import Calendar from "../components/calendar.jsx";
 import Header from "../components/Header.jsx";
-import "../../public/css/style.css";
+import "../../public/style.css";
 
 function Home() {
   const { user } = useAuth();
