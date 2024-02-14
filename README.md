@@ -1,23 +1,54 @@
+# [Accenture FMB Challenge]
+<br>
+<br>
+
+# Employee and Admin Dashboard for Mobility Bonus Calculation
+
+## This project is a web application designed to provide both employees and administrators (HR) with a dashboard interface for managing employee profiles and calculating mobility bonuses based on their various work locations.
+
+## Features
+<br>
+### Employee Dashboard
+
+Location Calendar: Employees can fill out a calendar with the locations where they work.
+
+Real-time Bonus Calculation: Employees can see in real-time if they will be eligible for a mobility bonus at the end of the month based on their work locations.
+
+### Admin Dashboard
+
+Employee Management: Administrators can view and manage employee profiles, including their respective calendars.
+
+Add/Remove Employees: Admins can add or remove employees from the system.
+
+Assign Clients: Admins can assign clients' addresses to employees.
+<br>
+
+## Employees and Admin persona
 
 
-colasproust@hotmail.com 
-test1234
+ ### Persona 1 - Employee
 
-jeromederoover@hotmail.com
-test1234
+ mail : colasproust@hotmail.com 
+ password : test1234
 
-admin@admin.com 
-test1234
+ ### Persona 2 - Employee
+ mail : jeromederoover@hotmail.com
+ password : test1234
 
+### Persona 3 - Admin
 
-Y'a des console logs un peu partout si tu veux vérifier le data.
+mail : admin@admin.com 
+password : test1234
 
-<<<<<<< Updated upstream
-=======
-Ajouter le isInRange dans la logique de création/modification de user
-Ajouter la condition pour que isInRange ne considère que le mois actuel
-Forcer le user à choisir un client
+<br>
 
+## Technologies Used
 
-Bon week-end !
->>>>>>> Stashed changes
+- **Framework:** React with Vite
+- **Database:** Appwrite
+
+<br>
+<br>
+
+See the project :  [Accenture FMB Dashboard](https://accenture-psi.vercel.app/)
+
