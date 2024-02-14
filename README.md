@@ -1,23 +1,49 @@
+# [Accenture FMB Challenge]
 
 
-colasproust@hotmail.com 
-test1234
+# Employee and Admin Dashboard for Mobility Bonus Calculation
 
-jeromederoover@hotmail.com
-test1234
+## This project is a web application designed to provide both employees and administrators (HR) with a dashboard interface for managing employee profiles and calculating mobility bonuses based on their various work locations.
 
-admin@admin.com 
-test1234
+## Features
+
+### Employee Dashboard
+
+Location Calendar: Employees can fill out a calendar with the locations where they work.
+
+Real-time Bonus Calculation: Employees can see in real-time if they will be eligible for a mobility bonus at the end of the month based on their work locations.
+
+### Admin Dashboard
+
+Employee Management: Administrators can view and manage employee profiles, including their respective calendars.
+
+Add/Remove Employees: Admins can add or remove employees from the system.
+
+Assign Clients: Admins can assign clients' addresses to employees.
 
 
-Y'a des console logs un peu partout si tu veux vérifier le data.
-
-<<<<<<< Updated upstream
-=======
-Ajouter le isInRange dans la logique de création/modification de user
-Ajouter la condition pour que isInRange ne considère que le mois actuel
-Forcer le user à choisir un client
+## Employees and Admin persona
 
 
-Bon week-end !
->>>>>>> Stashed changes
+ ### Persona 1 - Employee
+
+ mail : colasproust@hotmail.com 
+ password : test1234
+
+ ### Persona 2 - Employee
+ mail : jeromederoover@hotmail.com
+ password : test1234
+
+
+### Persona 3 - Admin
+
+mail : admin@admin.com 
+password : test1234
+
+
+## Technologies Used
+
+- **Framework:** React with Vite
+- **Database:** Appwrite
+
+
