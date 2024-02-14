@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { SearchOutlined } from "@ant-design/icons";
 import { Button, Input, Space, Table, Modal, Select } from "antd";
-import { deleteClient }  from "../utils/deleteClient";
+import { deleteClient } from "../utils/deleteClient";
 import Highlighter from "react-highlight-words";
 import { listClients } from "../lib/appwrite";
 import NewClientModal from "./NewClientModal";
@@ -189,22 +189,28 @@ const ClientsSort = () => {
     title: "-",
     dataIndex: "delete",
     key: "delete",
-    render: (text, record) => <button className="bg-red-600 bg-opacity-55 px-1 rounded-md border-red-800 border-2" onClick={() => handleDelete(record)}>Delete</button>,
+    render: (text, record) => (
+      <button
+        className="bg-red-600 bg-opacity-55 px-1 rounded-md border-red-800 border-2"
+        onClick={() => handleDelete(record)}
+      >
+        Delete
+      </button>
+    ),
     width: "10%",
   };
 
   const handleDelete = async (record) => {
     console.log("Deleting row with ID:", record.$id);
-  
+
     try {
       await deleteClient(record.$id);
       console.log("Client deleted successfully");
-  
+
       // Refetch client data from the database
       const response = await listClients();
       setDocuments(response.documents);
       alert("Client deleted successfully");
-  
     } catch (error) {
       console.error("Error deleting client:", error);
       // Handle error (e.g., show an error message)
@@ -251,9 +257,8 @@ const ClientsSort = () => {
         />
       </div>
       <div className="flex-1 flex justify-center items-center flex-col">
-       
         {/* Toggling the state to show or hide delete column */}
-        {/* <NewClientModal updateClientData={updateClientData} /> */}
+        <NewClientModal updateClientData={updateClientData} />
         <button
           className="py-2 px-4 border-red-600 border-2 border-opacity-50 rounded-2xl hover:bg-red-600 hover:bg-opacity-30 mb-4 min-w-52 my-4"
           onClick={() => setShowDeleteColumn(!showDeleteColumn)}
