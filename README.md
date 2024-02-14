@@ -2,14 +2,6 @@
 <br>
 <br>
 
- See the project right here and to tested the fake users and the fake admin are here : [Users & Admin Auth](#EmployeesandAdminpersona) 
- <br>
- [Accenture FMB Dashboard](https://accenture-psi.vercel.app/)
-
- <br>
- <br>
-
-
 # Employee and Admin Dashboard for Mobility Bonus Calculation
 
 ## This project is a web application designed to provide both employees and administrators (HR) with a dashboard interface for managing employee profiles and calculating mobility bonuses based on their various work locations.
@@ -48,6 +40,11 @@ Assign Clients: Admins can assign clients' addresses to employees.
 
 mail : admin@admin.com 
 password : test1234
+
+<br>
+<br>
+
+See the project :  [Accenture FMB Dashboard](https://accenture-psi.vercel.app/)
 
 
 ## Technologies Used
