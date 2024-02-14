@@ -35,13 +35,12 @@ Assign Clients: Admins can assign clients' addresses to employees.
  mail : jeromederoover@hotmail.com
  password : test1234
 
-
 ### Persona 3 - Admin
 
 mail : admin@admin.com 
 password : test1234
 
-
+<br>
 
 ## Technologies Used
 
