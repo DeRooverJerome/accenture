@@ -41,10 +41,6 @@ Assign Clients: Admins can assign clients' addresses to employees.
 mail : admin@admin.com 
 password : test1234
 
-<br>
-<br>
-
-See the project :  [Accenture FMB Dashboard](https://accenture-psi.vercel.app/)
 
 
 ## Technologies Used
@@ -52,4 +48,8 @@ See the project :  [Accenture FMB Dashboard](https://accenture-psi.vercel.app/)
 - **Framework:** React with Vite
 - **Database:** Appwrite
 
+<br>
+<br>
+
+See the project :  [Accenture FMB Dashboard](https://accenture-psi.vercel.app/)
 
