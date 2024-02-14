@@ -9,17 +9,17 @@ export const generateMonth = (month, year) => {
   const firstDateOfMonth = dayjs().year(year).month(month).startOf("month");
   const lastDateOfMonth = dayjs().year(year).month(month).endOf("month");
   const holidayDates = [
-    "2024-01-01", // Lundi 1er janvier (Nouvel An)
-    "2024-04-01", // Lundi 1er avril (Lundi de Pâques)
-    "2024-05-01", // Mercredi 1er mai (Fête du Travail)
-    "2024-05-09", // Jeudi 9 mai (Ascension)
-    "2024-05-20", // Lundi 20 mai (Lundi de Pentecôte)
-    "2024-07-21", // Dimanche 21 juillet (Fête nationale)
-    "2024-08-16", // Vendredi 16 août (Remplacement for Fête nationale)
-    "2024-08-15", // Jeudi 15 août (Assomption)
-    "2024-11-01", // Vendredi 1er novembre (Toussaint)
-    "2024-11-11", // Lundi 11 novembre (Armistice)
-    "2024-12-24", // Mercredi 25 décembre (Noël)
+    "2024-01-02", // Lundi 1er janvier (Nouvel An)
+    "2024-04-02", // Lundi 1er avril (Lundi de Pâques)
+    "2024-05-02", // Mercredi 1er mai (Fête du Travail)
+    "2024-05-10", // Jeudi 9 mai (Ascension)
+    "2024-05-21", // Lundi 20 mai (Lundi de Pentecôte)
+    "2024-07-22", // Dimanche 21 juillet (Fête nationale)
+    "2024-08-17", // Vendredi 16 août (Remplacement for Fête nationale)
+    "2024-08-16", // Jeudi 15 août (Assomption)
+    "2024-11-02", // Vendredi 1er novembre (Toussaint)
+    "2024-11-12", // Lundi 11 novembre (Armistice)
+    "2024-12-26", // Mercredi 25 décembre (Noël)
   ];
 
   function isHoliday(date) {

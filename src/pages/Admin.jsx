@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { listUsers } from "../lib/appwrite";
-import Calendar from "../components/calendar.jsx";
 import UserSort from "../components/UserSort.jsx";
 import ClientsSort from "../components/ClientsSort.jsx"; // Import ClientsSort component
 import { useAuth } from "../utils/AuthContext";
@@ -14,6 +13,7 @@ function Admin() {
     logoutUser();
     navigate("/login");
   };
+  
   useEffect(() => {
     listUsers()
       .then((response) => {

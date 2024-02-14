@@ -1,18 +1,25 @@
 import { useState, useRef } from "react";
-import { createClient } from "../utils/createClient";
+import { createUser } from "../utils/createUser";
+import { regiserFromAdmin } from "../utils/createUser";
 
-const NewClientModal = ({ updateClientData }) => {
+const NewEmployeeModal = ({ updateUserData }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    address: {
-      number: "",
-      street: "",
-      zip: "",
-      city: "",
-      country: "",
-    },
+    password: "",
+      firstName: "",
+      lastName: "",
+      email: "",
+      calendar: [],
+      address: 
+        {
+          number: "",
+          street: "",
+          zip: "",
+          city: "",
+          country: "",
+        },
+      clients: [],
+      company: "Accenture",
   });
 
   const modalRef = useRef();
@@ -24,15 +31,21 @@ const NewClientModal = ({ updateClientData }) => {
   const closeModal = () => {
     setIsOpen(false);
     setFormData({
-      name: "",
-      phone: "",
-      address: {
-        number: "",
-        street: "",
-        zip: "",
-        city: "",
-        country: "",
-      },
+      password: "",
+      firstName: "",
+      lastName: "",
+      email: "",
+      calendar: [],
+      address: 
+        {
+          number: "",
+          street: "",
+          zip: "",
+          city: "",
+          country: "",
+        },
+      clients: [],
+      company: "Accenture",
     });
   };
 
@@ -58,9 +71,9 @@ const NewClientModal = ({ updateClientData }) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-          console.log("formData", formData)
-          await createClient(formData);
-          updateClientData(formData);
+          console.log("formData", formData);
+          regiserFromAdmin(formData);
+          /* updateUserData(formData); */
           closeModal();
         } catch (error) {
           console.error(error);
@@ -76,20 +89,22 @@ const NewClientModal = ({ updateClientData }) => {
     return (
         <div>
             <button onClick={openModal}>
-                <div className="py-2 px-4 border-lime-600 border-2 border-opacity-50 rounded-lg hover:bg-lime-600 hover:bg-opacity-30 min-w-52 mt-2">
-                    <span className="text-3xl text-lime-600 pr-2">+</span>
-                    <span className="text-2xl text-lime-600">Add a client</span>
+                <div className=" my-2 py-1 px-2 border-lime-600 border-2 border-opacity-50 rounded-lg hover:bg-lime-600 hover:bg-opacity-30 mt-2">
+                    <span className="text-2xl text-lime-600 pr-2">+</span>
+                    <span className="text-xl text-lime-600">New Employee</span>
                 </div>
             </button>
 
             {isOpen && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-30" onClick={handleClickOutside}>
                     <div className="p-8 bg-neutral-100 rounded-2xl shadow-lg flex flex-col w-screen max-w-96" ref={modalRef}>
-                        <h2 className="text-2xl font-bold mb-4">New Client</h2>
+                        <h2 className="text-2xl font-bold mb-4">New Employee</h2>
                         <form onSubmit={handleSubmit} className='flex flex-col'>
-                            <input type="text" name="name" placeholder="Name" value={formData.name} onChange={handleInputChange} className="border border-gray-300 rounded px-4 py-2 mb-4" />
-                            <input type="tel" name="phone" placeholder="Phone Number" value={formData.phone} onChange={handleInputChange} className="border border-gray-300 rounded px-4 py-2 mb-4" />
-                            <h3 className="text-lg font-bold mb-2">Address</h3>
+                            <input type="text" name="firstName" placeholder="First Name" value={formData.firstName} onChange={handleInputChange} className="border border-gray-300 rounded px-4 py-2 mb-4" />
+                            <input type="text" name="lastName" placeholder="Last Name" value={formData.lastName} onChange={handleInputChange} className="border border-gray-300 rounded px-4 py-2 mb-4" />
+                            <input type="text" name="email" placeholder="Email" value={formData.email} onChange={handleInputChange} className="border border-gray-300 rounded px-4 py-2 mb-4" />
+                            <input type="text" name="password" placeholder="Password" value={formData.password} onChange={handleInputChange} className="border border-gray-300 rounded px-4 py-2 mb-4" />
+                            <h3 className="text-lg font-bold mb-2">Full Address</h3>
                             <input type="text" name="country" placeholder="Country" value={formData.address.country} onChange={handleAddressChange} className="border border-gray-300 rounded px-4 py-2 mb-2" />
                             <input type="text" name="city" placeholder="City" value={formData.address.city} onChange={handleAddressChange} className="border border-gray-300 rounded px-4 py-2 mb-2" />
                             <input type="text" name="zip" placeholder="ZIP Code" value={formData.address.zip} onChange={handleAddressChange} className="border border-gray-300 rounded px-4 py-2 mb-2" />
@@ -105,4 +120,4 @@ const NewClientModal = ({ updateClientData }) => {
   );
 };
 
-export default NewClientModal;
+export default NewEmployeeModal;

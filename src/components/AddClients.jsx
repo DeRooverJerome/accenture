@@ -30,7 +30,13 @@ const AddClients = ({ clients, user, onAddClient }) => {
     if (filtered.length > 0) {
       const newClientId = filtered[0].$id;
       const userData = await getUserData(user.$id);
-      const userClientsData = JSON.parse(userData.clients);
+      let userClientsData = [];
+      if (!userData.clients) {
+
+      }
+      else {
+      userClientsData = JSON.parse(userData.clients);
+      }
       
       if (!userClientsData.includes(newClientId)) {
         userClientsData.push(newClientId);

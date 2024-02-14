@@ -15,6 +15,7 @@ const client = new Client()
 export const databases = new Databases(client);
 export { ID } from "appwrite";
 export const account = new Account(client);
+console.log("account", account);
 
 export const listUsers = () => {
   return databases.listDocuments(DBId, userCollectionId);

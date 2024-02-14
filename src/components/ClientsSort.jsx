@@ -33,7 +33,7 @@ const ClientsSort = () => {
   const [selectedUser, setSelectedUser] = useState("");
   const [selectedUserClients, setSelectedUserClients] = useState([]);
   const [bottom, setBottom] = useState("bottomCenter");
-  const [showDeleteColumn, setShowDeleteColumn] = useState(false); // New state to toggle the delete column
+  const [showDeleteColumn, setShowDeleteColumn] = useState(false);
 
   useEffect(() => {
     listClients()
@@ -191,7 +191,7 @@ const ClientsSort = () => {
     key: "delete",
     render: (text, record) => (
       <button
-        className="bg-red-600 bg-opacity-55 px-1 rounded-md border-red-800 border-2"
+        className="bg-red-600 bg-opacity-75 px-1 rounded-md border-red-800 border text-white"
         onClick={() => handleDelete(record)}
       >
         Delete
@@ -224,6 +224,8 @@ const ClientsSort = () => {
       key: "Name",
       width: "30%",
       ...getColumnSearchProps("Name"),
+      paddingTop: "10px",
+      paddingBottom: "10px",
     },
     { title: "Address", dataIndex: "Address", key: "Address", width: "30%" },
     {
@@ -257,15 +259,14 @@ const ClientsSort = () => {
         />
       </div>
       <div className="flex-1 flex justify-center items-center flex-col">
-        {/* Toggling the state to show or hide delete column */}
         <NewClientModal updateClientData={updateClientData} />
         <button
-          className="py-2 px-4 border-red-600 border-2 border-opacity-50 rounded-2xl hover:bg-red-600 hover:bg-opacity-30 mb-4 min-w-52 my-4"
+          className="py-2 px-4 border-red-600 border-2 border-opacity-50 rounded-lg hover:bg-red-600 hover:bg-opacity-30 mb-4 min-w-52 my-4"
           onClick={() => setShowDeleteColumn(!showDeleteColumn)}
         >
           <span className="text-3xl text-red-600 pr-2">-</span>
           <span className="text-2xl text-red-600">Delete a client</span>
-        </button>{" "}
+        </button>
       </div>
     </div>
   );

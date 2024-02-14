@@ -7,6 +7,8 @@ import Calendar from "../components/calendar";
 import ClientsList from "./ClientsList";
 import AddClients from "./AddClients";
 import { getUserData } from "../utils/getUserData";
+import NewEmployeeModal from "./newEmployeeModal";
+import { deleteUser } from "../utils/deleteUser";
 
 const UserSort = () => {
   const [searchText, setSearchText] = useState("");
@@ -17,6 +19,8 @@ const UserSort = () => {
   const [selectedUserClients, setSelectedUserClients] = useState([]);
   const [allClients, setAllClients] = useState([]);
   const [remountCalendar, setRemountCalendar] = useState(false);
+  const [showDeleteColumn, setShowDeleteColumn] = useState(false);
+
 
   useEffect(() => {
     if (selectedUserClients.length > 0) {
@@ -169,6 +173,38 @@ const UserSort = () => {
       ),
   });
 
+  const deleteColumn = {
+    title: "-",
+    dataIndex: "delete",
+    key: "delete",
+    render: (text, record) => (
+      <button
+        className="bg-red-600 bg-opacity-75 px-1 rounded-md border-red-800 border text-white"
+        onClick={() => handleDelete(record)}
+      >
+        Delete
+      </button>
+    ),
+    width: "10%",
+
+  };
+  const handleDelete = async (record) => {
+    console.log("Deleting row with ID:", record.$id);
+
+    try {
+      await deleteUser(record.$id);
+      console.log("Client deleted successfully");
+
+      // Refetch client data from the database
+      const response = await listUsers();
+      setDocuments(response.documents);
+      alert("Employee deleted successfully");
+    } catch (error) {
+      console.error("Error deleting client:", error);
+      // Handle error (e.g., show an error message)
+    }
+  };
+
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -226,6 +262,13 @@ const UserSort = () => {
     },
   ];
 
+  const updateUserData = (newClientData) => {
+    const address = `${newClientData.address.number} ${newClientData.address.street}, ${newClientData.address.zip} ${newClientData.address.city}, ${newClientData.address.country}`;
+    newClientData.address = address;
+    setDocuments([...documents, newClientData]);
+  };
+
+
   useEffect(() => {
     if (selectedUser) {
       // Filter all clients to get selected user's clients
@@ -255,7 +298,7 @@ const UserSort = () => {
             rowIndex === selectedUser ? "selected-row" : ""
           }
           dataSource={arrayUser}
-          columns={columns}
+          columns={showDeleteColumn ? [...columns, deleteColumn] : columns} // Conditional rendering of delete column
           pagination={{
             position: ["none", "bottomCenter"],
           }}
@@ -268,6 +311,16 @@ const UserSort = () => {
             };
           }}
         />
+        <div className="flex justify-center items-center gap-2">
+        <NewEmployeeModal updateUserData={updateUserData} />
+        <button
+          className="py-1 px-2 border-red-600 border-2 border-opacity-50 rounded-lg hover:bg-red-600 hover:bg-opacity-30 mb-4 my-4"
+          onClick={() => setShowDeleteColumn(!showDeleteColumn)}
+        >
+          <span className="text-2xl text-red-600 pr-2">-</span>
+          <span className="text-xl text-red-600">Remove Employee</span>
+        </button>
+        </div>
         <Modal
           title="Informations"
           open={isModalOpen}

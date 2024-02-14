@@ -20,12 +20,13 @@ export async function getCoordinatesFromAddress(address){
         };
         return resultCoordinates;
       } else {
+        console.log("error address", address)
         throw new Error("No results found for the provided address.");
       }
     } catch (error) {
       console.error("Error fetching coordinates:", error);
       throw new Error(
-        "Unable to fetch coordinates. Please try again later."
+        "Unable to fetch coordinates. Please try again later.", address
       );
     }
   }

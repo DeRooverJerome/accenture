@@ -1,5 +1,5 @@
 import { DBId, databases } from "../lib/appwrite";
-const CollectionId = "65c0a8f5eb3043371810";
+import { clientCollectionId } from "../lib/appwrite";
 
 export async function getClientsData(clients) {
   if (!clients || clients.trim() === '') {
@@ -10,12 +10,12 @@ export async function getClientsData(clients) {
   const clientsData = [];
   for (let i = 0; i < parsedClients.length; i++) {
     const client = parsedClients[i];
-    const clientData = await databases.getDocument(DBId, CollectionId, client); 
+    const clientData = await databases.getDocument(DBId, clientCollectionId, client); 
     clientsData.push(clientData);
   }
   return clientsData;
 }
 
 export async function getClientData(clientId) {
-  return databases.getDocument(DBId, CollectionId, clientId);
+  return databases.getDocument(DBId, clientCollectionId, clientId);
 }
