@@ -7,7 +7,7 @@
 ## This project is a web application designed to provide both employees and administrators (HR) with a dashboard interface for managing employee profiles and calculating mobility bonuses based on their various work locations.
 
 ## Features
-
+<br>
 ### Employee Dashboard
 
 Location Calendar: Employees can fill out a calendar with the locations where they work.
