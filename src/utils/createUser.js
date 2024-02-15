@@ -45,4 +45,5 @@ export async function regiserFromAdmin (formData) {
     Company: "Accenture"
     
   });
+  window.location.reload();
 }
